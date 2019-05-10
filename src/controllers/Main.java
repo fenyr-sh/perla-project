@@ -1,4 +1,4 @@
-package perlaproject;
+package controllers;
 
 import database.DatabaseConfiguration;
 import database.DatabaseConnection;
@@ -12,8 +12,7 @@ import java.sql.Statement;
  *
  * @author Fenyr Shell
  */
-public class PerlaProject {
-
+public class Main {
     /**
      * @param args the command line arguments
      */
@@ -78,5 +77,4 @@ public class PerlaProject {
             }
         }
     }
-
 }
