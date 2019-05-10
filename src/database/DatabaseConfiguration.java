@@ -14,15 +14,7 @@ import java.util.Properties;
  */
 public class DatabaseConfiguration extends Properties {
 
-    private File configurationFile;
-
-    /**
-     * Establece un nombre de archivo predeterminado.
-     * 
-     */
-    public DatabaseConfiguration() {
-        configurationFile = new File("db_configuration");
-    }
+    private final File configurationFile;
 
     /**
      * Establece un nombre de archivo de configuración.
@@ -39,14 +31,6 @@ public class DatabaseConfiguration extends Properties {
      */
     public File getConfigurationFile() {
         return configurationFile;
-    }
-    
-    /**
-     * Establece el archivo de configuración.
-     * @param configurationFile archivo de configuración.
-     */
-    public void setConfigurationFile(File configurationFile) {
-        this.configurationFile = configurationFile;
     }
 
     /**
@@ -86,11 +70,12 @@ public class DatabaseConfiguration extends Properties {
     /**
      * Guarda la configuracion en un archivo.
      *
+     * @param msg mensaje.
      * @throws IOException
      */
-    public void storeConfiguration() throws IOException {
+    public void storeConfiguration(String msg) throws IOException {
         OutputStream outputStream = new FileOutputStream(configurationFile);
-        store(outputStream, "Database setttings");
+        store(outputStream, msg);
         outputStream.close();
     }
 }
