@@ -1,20 +1,21 @@
-package views;
+package views.rendimiento.buque;
 
-import java.awt.event.KeyEvent;
+import controllers.RendimientoBuqueController;
+import controllers.Util;
 import java.util.Calendar;
 import java.util.Date;
-import org.apache.poi.ss.usermodel.DateUtil;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Fenyr Shell
  */
-public class RendimientoBuque extends javax.swing.JFrame {
+public class Create extends javax.swing.JFrame {
 
     /**
      * Creates new form RendimientoBuque
      */
-    public RendimientoBuque() {
+    public Create() {
         initComponents();
         Calendar calendar = Calendar.getInstance();
         datePuertoArribo.setCalendar(calendar);
@@ -22,27 +23,6 @@ public class RendimientoBuque extends javax.swing.JFrame {
         dateMuelleAtraque.setCalendar(calendar);
         dateOperacionInicio.setCalendar(calendar);
         dateOperacionTermino.setCalendar(calendar);
-    }
-
-    private double numberDate(Date date, double hour) {
-        int numberDate = (int) DateUtil.getExcelDate(date);
-        double result = ((numberDate - 1) * 24) + hour;
-
-        return result;
-    }
-
-    private void onlyNumber(java.awt.event.KeyEvent evt) {
-//        if (!Character.isDigit(evt.getKeyChar())) {
-//            evt.consume();
-//            getToolkit().beep();            
-//        }
-        char caracter = evt.getKeyChar();
-        if (((caracter < '0') || (caracter > '9')) && (caracter != KeyEvent.VK_BACK_SPACE) && (caracter != '.')) {
-            evt.consume();
-            getToolkit().beep();  
-        }else {
-            
-        }
     }
 
     /**
@@ -91,8 +71,9 @@ public class RendimientoBuque extends javax.swing.JFrame {
         dateOperacionTermino = new com.toedter.calendar.JDateChooser();
         lblOperacionTermino = new javax.swing.JLabel();
         btnGuardar = new javax.swing.JButton();
+        btnPreview = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Rendimiento de Buques");
 
         root.setBorder(null);
@@ -110,6 +91,7 @@ public class RendimientoBuque extends javax.swing.JFrame {
         txtPuertoProducto.setText("Maiz Amarillo");
 
         txtPuertoBuque.setText("Atlantic Tulum");
+        txtPuertoBuque.setName("Buque"); // NOI18N
 
         txtPuertoTonelaje.setText("34097");
         txtPuertoTonelaje.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -135,7 +117,7 @@ public class RendimientoBuque extends javax.swing.JFrame {
             }
         });
 
-        txtPuertoDesatraqueHora.setText("6");
+        txtPuertoDesatraqueHora.setText("8.5");
         txtPuertoDesatraqueHora.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtPuertoDesatraqueHoraKeyTyped(evt);
@@ -163,14 +145,13 @@ public class RendimientoBuque extends javax.swing.JFrame {
                         .addGroup(pnBuquePuertoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(datePuertoDesatraque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(datePuertoArribo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(pnBuquePuertoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnBuquePuertoLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(lblPuertoArriboHora)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtPuertoArriboHora))
                             .addGroup(pnBuquePuertoLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(lblPuertoDesatraqueHora)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtPuertoDesatraqueHora))))
@@ -266,7 +247,7 @@ public class RendimientoBuque extends javax.swing.JFrame {
 
         pnBuqueOperacion.setBorder(javax.swing.BorderFactory.createTitledBorder("BUQUE EN OPERACIÓN"));
 
-        txtOperacionDemoras.setText("34097");
+        txtOperacionDemoras.setText("0");
         txtOperacionDemoras.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtOperacionDemorasKeyTyped(evt);
@@ -358,6 +339,13 @@ public class RendimientoBuque extends javax.swing.JFrame {
             }
         });
 
+        btnPreview.setText("Preview");
+        btnPreview.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPreviewActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -371,6 +359,8 @@ public class RendimientoBuque extends javax.swing.JFrame {
                     .addComponent(pnBuqueOperacion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnPreview)
+                        .addGap(18, 18, 18)
                         .addComponent(btnGuardar)))
                 .addContainerGap())
         );
@@ -386,7 +376,9 @@ public class RendimientoBuque extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(pnBuqueOperacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPreview, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -409,98 +401,107 @@ public class RendimientoBuque extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        String puertoBuque = txtPuertoBuque.getText();
-        String puertoMuelle = txtPuertoMuelle.getText();
-        String puertoProducto = txtPuertoProducto.getText();
-        double puertoTonelaje = Double.parseDouble(txtPuertoTonelaje.getText());
-        Date puertoArribo = datePuertoArribo.getDate();
-        double puertoArriboHora = Double.parseDouble(txtPuertoArriboHora.getText());
-        Date puertoDesatraque = datePuertoDesatraque.getDate();
-        double puertoDesatraqueHora = Double.parseDouble(txtPuertoDesatraqueHora.getText());
-        Date muelleAtraque = dateMuelleAtraque.getDate();
-        double muelleAtraqueHora = Double.parseDouble(txtMuelleAtraqueHora.getText());
-        Date operacionInicio = dateOperacionInicio.getDate();
-        double operacionInicioHora = Double.parseDouble(txtOperacionInicioHora.getText());
-        Date operacionTermino = dateOperacionTermino.getDate();
-        double operacionTerminoHora = Double.parseDouble(txtOperacionTerminoHora.getText());
-        double operacionDemoras = Double.parseDouble(txtOperacionDemoras.getText());
+        if (Util.fieldIsEmpty(txtPuertoBuque, txtPuertoMuelle, txtPuertoProducto, 
+                txtPuertoTonelaje, txtPuertoArriboHora, txtPuertoDesatraqueHora,
+                txtMuelleAtraqueHora, txtOperacionInicioHora, txtOperacionTerminoHora, 
+                txtOperacionDemoras) || Util.dateIsEmpty(datePuertoArribo, datePuertoDesatraque,
+                dateMuelleAtraque, dateOperacionInicio, dateOperacionTermino)) {
+            
+            JOptionPane.showMessageDialog(rootPane, "Llena todos los campos!");
+        }else {
+            String puertoBuque = txtPuertoBuque.getText();
+            String puertoMuelle = txtPuertoMuelle.getText();
+            String puertoProducto = txtPuertoProducto.getText();
+            double puertoTonelaje = Double.parseDouble(txtPuertoTonelaje.getText());
+            Date puertoArribo = datePuertoArribo.getDate();
+            double puertoArriboHora = Double.parseDouble(txtPuertoArriboHora.getText());
+            Date puertoDesatraque = datePuertoDesatraque.getDate();
+            double puertoDesatraqueHora = Double.parseDouble(txtPuertoDesatraqueHora.getText());
+            Date muelleAtraque = dateMuelleAtraque.getDate();
+            double muelleAtraqueHora = Double.parseDouble(txtMuelleAtraqueHora.getText());
+            Date operacionInicio = dateOperacionInicio.getDate();
+            double operacionInicioHora = Double.parseDouble(txtOperacionInicioHora.getText());
+            Date operacionTermino = dateOperacionTermino.getDate();
+            double operacionTerminoHora = Double.parseDouble(txtOperacionTerminoHora.getText());
+            double operacionDemoras = Double.parseDouble(txtOperacionDemoras.getText());
 
-        System.out.println(numberDate(puertoArribo, puertoArriboHora));
+            JOptionPane.showMessageDialog(rootPane, "Función no disponible!", "Preview", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void txtPuertoTonelajeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPuertoTonelajeKeyTyped
         // TODO add your handling code here:
-        onlyNumber(evt);
+        Util.onlyNumber(this, evt);
     }//GEN-LAST:event_txtPuertoTonelajeKeyTyped
 
     private void txtPuertoArriboHoraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPuertoArriboHoraKeyTyped
         // TODO add your handling code here:
-        onlyNumber(evt);
+        Util.onlyNumber(this, evt);
     }//GEN-LAST:event_txtPuertoArriboHoraKeyTyped
 
     private void txtPuertoDesatraqueHoraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPuertoDesatraqueHoraKeyTyped
         // TODO add your handling code here:
-        onlyNumber(evt);
+        Util.onlyNumber(this, evt);
     }//GEN-LAST:event_txtPuertoDesatraqueHoraKeyTyped
 
     private void txtMuelleAtraqueHoraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMuelleAtraqueHoraKeyTyped
         // TODO add your handling code here:
-        onlyNumber(evt);
+        Util.onlyNumber(this, evt);
     }//GEN-LAST:event_txtMuelleAtraqueHoraKeyTyped
 
     private void txtOperacionInicioHoraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtOperacionInicioHoraKeyTyped
         // TODO add your handling code here:
-        onlyNumber(evt);
+        Util.onlyNumber(this, evt);
     }//GEN-LAST:event_txtOperacionInicioHoraKeyTyped
 
     private void txtOperacionTerminoHoraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtOperacionTerminoHoraKeyTyped
         // TODO add your handling code here:
-        onlyNumber(evt);
+        Util.onlyNumber(this, evt);
     }//GEN-LAST:event_txtOperacionTerminoHoraKeyTyped
 
     private void txtOperacionDemorasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtOperacionDemorasKeyTyped
         // TODO add your handling code here:
-        onlyNumber(evt);
+        Util.onlyNumber(this, evt);
     }//GEN-LAST:event_txtOperacionDemorasKeyTyped
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-            javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(RendimientoBuque.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(RendimientoBuque.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(RendimientoBuque.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(RendimientoBuque.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void btnPreviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviewActionPerformed
+        // TODO add your handling code here:
+        if (Util.fieldIsEmpty(txtPuertoBuque, txtPuertoMuelle, txtPuertoProducto, 
+                txtPuertoTonelaje, txtPuertoArriboHora, txtPuertoDesatraqueHora,
+                txtMuelleAtraqueHora, txtOperacionInicioHora, txtOperacionTerminoHora, 
+                txtOperacionDemoras) || Util.dateIsEmpty(datePuertoArribo, datePuertoDesatraque,
+                dateMuelleAtraque, dateOperacionInicio, dateOperacionTermino)) {
+            
+            JOptionPane.showMessageDialog(rootPane, "Llena todos los campos!");
+        }else {
+            String puertoBuque = txtPuertoBuque.getText();
+            String puertoMuelle = txtPuertoMuelle.getText();
+            String puertoProducto = txtPuertoProducto.getText();
+            double puertoTonelaje = Double.parseDouble(txtPuertoTonelaje.getText());
+            Date puertoArribo = datePuertoArribo.getDate();
+            double puertoArriboHora = Double.parseDouble(txtPuertoArriboHora.getText());
+            Date puertoDesatraque = datePuertoDesatraque.getDate();
+            double puertoDesatraqueHora = Double.parseDouble(txtPuertoDesatraqueHora.getText());
+            double puertoZarpe = 1;
+            Date muelleAtraque = dateMuelleAtraque.getDate();
+            double muelleAtraqueHora = Double.parseDouble(txtMuelleAtraqueHora.getText());
+            Date operacionInicio = dateOperacionInicio.getDate();
+            double operacionInicioHora = Double.parseDouble(txtOperacionInicioHora.getText());
+            Date operacionTermino = dateOperacionTermino.getDate();
+            double operacionTerminoHora = Double.parseDouble(txtOperacionTerminoHora.getText());
+            double operacionDemoras = Double.parseDouble(txtOperacionDemoras.getText());
+                        
+            RendimientoBuqueController rbc = new RendimientoBuqueController();
+            rbc.show(puertoBuque, puertoMuelle, puertoProducto, puertoTonelaje, 
+                    puertoArribo, puertoArriboHora, puertoDesatraque, puertoDesatraqueHora, puertoZarpe,
+                    muelleAtraque, muelleAtraqueHora, operacionInicio, operacionInicioHora,
+                    operacionTermino, operacionTerminoHora, operacionDemoras);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new RendimientoBuque().setVisible(true);
-            }
-        });
-    }
+    }//GEN-LAST:event_btnPreviewActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnPreview;
     private com.toedter.calendar.JDateChooser dateMuelleAtraque;
     private com.toedter.calendar.JDateChooser dateOperacionInicio;
     private com.toedter.calendar.JDateChooser dateOperacionTermino;

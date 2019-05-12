@@ -1,10 +1,8 @@
 package controllers;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
-import org.apache.poi.ss.usermodel.DateUtil;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -75,16 +73,15 @@ public class Main {
 //            }
 //        }
         
-        //=(((DATE(2019,4,9)-1)*24)+6)        
-        Calendar cal = Calendar.getInstance();
+        RendimientoBuqueController rbc =  new RendimientoBuqueController();
         
-        cal.set(2019, 3, 9);
-        double hours = 6;
+        // Establece la apariencia de la aplicación.
+        try {
+            javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        int excel_date = (int) DateUtil.getExcelDate(cal.getTime());
-        
-        double result = ((excel_date - 1) * 24) + hours;
-        
-        System.out.println(result);
+        rbc.index();
     }
 }

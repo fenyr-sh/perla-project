@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
+import views.rendimiento.buque.*;
 
 /**
  *
@@ -35,63 +37,27 @@ public class RendimientoBuqueController {
     }
     
     public void index() {
-        
+        Index index =  new Index();
+        index.setVisible(true);
     }
     
     public void create() {
-        try {
-            db_conn.openConnection();
-
-            // Do something with the Connection
-            stmt = db_conn.getConnection().createStatement();
-
-            rs = stmt.executeQuery("SELECT * FROM users");
-
-            while (rs.next()) {
-                System.out.println(rs.getString("username") + " --- " + rs.getString("password") + " --- " + rs.getString("role"));
-            }
-
-            // Now do something with the ResultSet ....
-            
-            
-        } catch (SQLException ex) {
-            // handle any errors
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
-
-        } finally {
-
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException sqlEx) {
-                } // ignore
-
-                rs = null;
-            }
-
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (SQLException sqlEx) {
-                } // ignore
-
-                stmt = null;
-            }
-            
-            if (db_conn.getConnection() != null) {
-                try {
-                    db_conn.closeConnection();
-                    System.out.println("Conexion cerrada");
-                } catch (SQLException ex) {
-                    
-                }
-            }
-        }
+        Create create =  new Create();
+        create.setVisible(true);
     }
     
-    public void edit() {
+    public void show(String puertoBuque, String puertoMuelle, String puertoProducto,
+            double puertoTonelaje, Date puertoArribo, double puertoArriboHora,
+            Date puertoDesatraque, double puertoDesatraqueHora, double puertoZarpe, Date muelleAtraque,
+            double muelleAtraqueHora, Date operacionInicio, double operacionInicioHora,
+            Date operacionTermino, double operacionTerminoHora, double operacionDemoras) {
         
+        Show show =  new Show();
+        show.setData(puertoBuque, puertoMuelle, puertoProducto, puertoTonelaje,
+                puertoArribo, puertoArriboHora, puertoDesatraque, puertoDesatraqueHora,
+                puertoZarpe, muelleAtraque, muelleAtraqueHora, operacionInicio, 
+                operacionInicioHora, operacionTermino, operacionTerminoHora, operacionDemoras);
+        
+        show.setVisible(true);
     }
 }
