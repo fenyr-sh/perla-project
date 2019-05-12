@@ -1,5 +1,10 @@
 package views;
 
+import java.awt.event.KeyEvent;
+import java.util.Calendar;
+import java.util.Date;
+import org.apache.poi.ss.usermodel.DateUtil;
+
 /**
  *
  * @author Fenyr Shell
@@ -11,6 +16,33 @@ public class RendimientoBuque extends javax.swing.JFrame {
      */
     public RendimientoBuque() {
         initComponents();
+        Calendar calendar = Calendar.getInstance();
+        datePuertoArribo.setCalendar(calendar);
+        datePuertoDesatraque.setCalendar(calendar);
+        dateMuelleAtraque.setCalendar(calendar);
+        dateOperacionInicio.setCalendar(calendar);
+        dateOperacionTermino.setCalendar(calendar);
+    }
+
+    private double numberDate(Date date, double hour) {
+        int numberDate = (int) DateUtil.getExcelDate(date);
+        double result = ((numberDate - 1) * 24) + hour;
+
+        return result;
+    }
+
+    private void onlyNumber(java.awt.event.KeyEvent evt) {
+//        if (!Character.isDigit(evt.getKeyChar())) {
+//            evt.consume();
+//            getToolkit().beep();            
+//        }
+        char caracter = evt.getKeyChar();
+        if (((caracter < '0') || (caracter > '9')) && (caracter != KeyEvent.VK_BACK_SPACE) && (caracter != '.')) {
+            evt.consume();
+            getToolkit().beep();  
+        }else {
+            
+        }
     }
 
     /**
@@ -22,271 +54,309 @@ public class RendimientoBuque extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        txtPuertoBuque = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        txtPuertoMuelle = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        txtPuertoTonelaje = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        txtPuertoProducto = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        txtPuertoArribo = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        txtPuertoDesatraque = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        txtPuertoZarpe = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        txtPuertoTiempo = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
-        txtPuertoRendimiento = new javax.swing.JTextField();
-        btnPuertoGuardar = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        txtMuelleTiempo = new javax.swing.JTextField();
-        jLabel14 = new javax.swing.JLabel();
-        txtMuelleRendimiento = new javax.swing.JTextField();
-        txtMuelleDesatraque = new javax.swing.JTextField();
-        txtMuelleAtraque = new javax.swing.JTextField();
-        btnMuelleGuardar = new javax.swing.JButton();
+        root = new javax.swing.JScrollPane();
         jPanel3 = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        pnBuquePuerto = new javax.swing.JPanel();
+        txtPuertoMuelle = new javax.swing.JTextField();
+        lblPuertoProducto = new javax.swing.JLabel();
+        txtPuertoProducto = new javax.swing.JTextField();
+        txtPuertoBuque = new javax.swing.JTextField();
+        txtPuertoTonelaje = new javax.swing.JTextField();
+        lblPuertoBuque = new javax.swing.JLabel();
+        lblPuertoMuelle = new javax.swing.JLabel();
+        lblPuertoTonelaje = new javax.swing.JLabel();
+        datePuertoArribo = new com.toedter.calendar.JDateChooser();
+        lblPuertoArribo = new javax.swing.JLabel();
+        lblPuertoArriboHora = new javax.swing.JLabel();
+        txtPuertoArriboHora = new javax.swing.JTextField();
+        txtPuertoDesatraqueHora = new javax.swing.JTextField();
+        lblPuertoDesatraqueHora = new javax.swing.JLabel();
+        datePuertoDesatraque = new com.toedter.calendar.JDateChooser();
+        lblPuertoDesatraque = new javax.swing.JLabel();
+        pnBuqueMuelle = new javax.swing.JPanel();
+        txtMuelleAtraqueHora = new javax.swing.JTextField();
+        lblMuelleAtraqueHora = new javax.swing.JLabel();
+        dateMuelleAtraque = new com.toedter.calendar.JDateChooser();
+        lblMuelleAtraque = new javax.swing.JLabel();
+        pnBuqueOperacion = new javax.swing.JPanel();
         txtOperacionDemoras = new javax.swing.JTextField();
-        txtOperacionTiempo = new javax.swing.JTextField();
-        txtOperacionTerminoOperacion = new javax.swing.JTextField();
-        txtOperacionInicioOperacion = new javax.swing.JTextField();
-        jLabel19 = new javax.swing.JLabel();
-        txtOperacionRendimiento = new javax.swing.JTextField();
-        btnOperacionGuardar = new javax.swing.JButton();
+        lblOperacionDemoras = new javax.swing.JLabel();
+        dateOperacionInicio = new com.toedter.calendar.JDateChooser();
+        lblOperacionInicio = new javax.swing.JLabel();
+        lblOperacionInicioHora = new javax.swing.JLabel();
+        txtOperacionInicioHora = new javax.swing.JTextField();
+        txtOperacionTerminoHora = new javax.swing.JTextField();
+        lblOperacionTerminoHora = new javax.swing.JLabel();
+        dateOperacionTermino = new com.toedter.calendar.JDateChooser();
+        lblOperacionTermino = new javax.swing.JLabel();
+        btnGuardar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Rendimiento de Buques");
-        setResizable(false);
+
+        root.setBorder(null);
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Rendimiento de Buques");
 
-        jLabel2.setText("Buque:");
+        pnBuquePuerto.setBorder(javax.swing.BorderFactory.createTitledBorder("BUQUE EN PUERTO"));
 
-        jLabel3.setText("Muelle:");
+        txtPuertoMuelle.setText("7");
 
-        jLabel4.setText("Tonelaje:");
+        lblPuertoProducto.setText("Producto:");
 
-        jLabel5.setText("Producto:");
+        txtPuertoProducto.setText("Maiz Amarillo");
 
-        txtPuertoProducto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPuertoProductoActionPerformed(evt);
+        txtPuertoBuque.setText("Atlantic Tulum");
+
+        txtPuertoTonelaje.setText("34097");
+        txtPuertoTonelaje.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPuertoTonelajeKeyTyped(evt);
             }
         });
 
-        jLabel6.setText("Arribo:");
+        lblPuertoBuque.setText("Buque:");
 
-        txtPuertoArribo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPuertoArriboActionPerformed(evt);
+        lblPuertoMuelle.setText("Muelle:");
+
+        lblPuertoTonelaje.setText("Tonelaje:");
+
+        lblPuertoArribo.setText("Arribo:");
+
+        lblPuertoArriboHora.setText("Hora:");
+
+        txtPuertoArriboHora.setText("6");
+        txtPuertoArriboHora.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPuertoArriboHoraKeyTyped(evt);
             }
         });
 
-        jLabel7.setText("Desatraque:");
-
-        txtPuertoDesatraque.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPuertoDesatraqueActionPerformed(evt);
+        txtPuertoDesatraqueHora.setText("6");
+        txtPuertoDesatraqueHora.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPuertoDesatraqueHoraKeyTyped(evt);
             }
         });
 
-        jLabel8.setText("Hora de Zarpe:");
+        lblPuertoDesatraqueHora.setText("Hora:");
 
-        jLabel9.setText("Tiempo:");
+        lblPuertoDesatraque.setText("Desatraque:");
 
-        jLabel10.setText("Rendimiento:");
-
-        btnPuertoGuardar.setText("Guardar");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnBuquePuertoLayout = new javax.swing.GroupLayout(pnBuquePuerto);
+        pnBuquePuerto.setLayout(pnBuquePuertoLayout);
+        pnBuquePuertoLayout.setHorizontalGroup(
+            pnBuquePuertoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnBuquePuertoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(pnBuquePuertoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(lblPuertoProducto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPuertoBuque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPuertoArribo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPuertoDesatraque, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pnBuquePuertoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnBuquePuertoLayout.createSequentialGroup()
+                        .addGroup(pnBuquePuertoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(datePuertoDesatraque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(datePuertoArribo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(pnBuquePuertoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnBuquePuertoLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtPuertoBuque, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(txtPuertoMuelle, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel4)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtPuertoTonelaje, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE))))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lblPuertoArriboHora)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtPuertoArriboHora))
+                            .addGroup(pnBuquePuertoLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtPuertoRendimiento, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(txtPuertoZarpe)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel9)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtPuertoTiempo))
-                                    .addComponent(txtPuertoProducto)
-                                    .addComponent(txtPuertoArribo)
-                                    .addComponent(txtPuertoDesatraque, javax.swing.GroupLayout.Alignment.TRAILING)))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnPuertoGuardar)))
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPuertoBuque, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtPuertoMuelle, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtPuertoTonelaje, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPuertoProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPuertoArribo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPuertoDesatraque, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtPuertoZarpe, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtPuertoTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPuertoRendimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                .addComponent(btnPuertoGuardar)
-                .addContainerGap())
-        );
-
-        jTabbedPane1.addTab("PUERTO", jPanel1);
-
-        jLabel11.setText("Atraque:");
-
-        jLabel12.setText("Desatraque:");
-
-        jLabel13.setText("Tiempo:");
-
-        txtMuelleTiempo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtMuelleTiempoActionPerformed(evt);
-            }
-        });
-
-        jLabel14.setText("Rendimiento:");
-
-        btnMuelleGuardar.setText("Guardar");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(lblPuertoDesatraqueHora)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtPuertoDesatraqueHora))))
+                    .addGroup(pnBuquePuertoLayout.createSequentialGroup()
+                        .addGroup(pnBuquePuertoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtPuertoProducto, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtPuertoBuque, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(pnBuquePuertoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblPuertoMuelle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblPuertoTonelaje, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtMuelleTiempo, javax.swing.GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE)
-                            .addComponent(txtMuelleRendimiento)
-                            .addComponent(txtMuelleDesatraque)
-                            .addComponent(txtMuelleAtraque)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnMuelleGuardar)))
+                        .addGroup(pnBuquePuertoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtPuertoTonelaje, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+                            .addComponent(txtPuertoMuelle, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        pnBuquePuertoLayout.setVerticalGroup(
+            pnBuquePuertoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnBuquePuertoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtMuelleAtraque, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnBuquePuertoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnBuquePuertoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblPuertoBuque, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtPuertoBuque, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnBuquePuertoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblPuertoMuelle, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtPuertoMuelle, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pnBuquePuertoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblPuertoProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnBuquePuertoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtPuertoProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblPuertoTonelaje, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtPuertoTonelaje, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pnBuquePuertoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblPuertoArribo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(datePuertoArribo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnBuquePuertoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblPuertoArriboHora, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtPuertoArriboHora, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtMuelleDesatraque, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtMuelleTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtMuelleRendimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 166, Short.MAX_VALUE)
-                .addComponent(btnMuelleGuardar)
-                .addContainerGap())
+                .addGroup(pnBuquePuertoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblPuertoDesatraque, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(datePuertoDesatraque, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnBuquePuertoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblPuertoDesatraqueHora, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtPuertoDesatraqueHora, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("MUELLE", jPanel2);
+        pnBuqueMuelle.setBorder(javax.swing.BorderFactory.createTitledBorder("BUQUE EN MUELLE"));
 
-        jLabel15.setText("Inc. Operación:");
-
-        jLabel16.setText("Term. Operación:");
-
-        jLabel17.setText("Tiempo:");
-
-        jLabel18.setText("Demoras:");
-
-        txtOperacionTiempo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtOperacionTiempoActionPerformed(evt);
+        txtMuelleAtraqueHora.setText("18.1");
+        txtMuelleAtraqueHora.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtMuelleAtraqueHoraKeyTyped(evt);
             }
         });
 
-        jLabel19.setText("Rendimiento:");
+        lblMuelleAtraqueHora.setText("Hora:");
 
-        btnOperacionGuardar.setText("Guardar");
+        lblMuelleAtraque.setText("Atraque:");
+
+        javax.swing.GroupLayout pnBuqueMuelleLayout = new javax.swing.GroupLayout(pnBuqueMuelle);
+        pnBuqueMuelle.setLayout(pnBuqueMuelleLayout);
+        pnBuqueMuelleLayout.setHorizontalGroup(
+            pnBuqueMuelleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnBuqueMuelleLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblMuelleAtraque, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dateMuelleAtraque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblMuelleAtraqueHora)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtMuelleAtraqueHora)
+                .addContainerGap())
+        );
+        pnBuqueMuelleLayout.setVerticalGroup(
+            pnBuqueMuelleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnBuqueMuelleLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnBuqueMuelleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblMuelleAtraque, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dateMuelleAtraque, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnBuqueMuelleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblMuelleAtraqueHora, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtMuelleAtraqueHora, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+
+        pnBuqueOperacion.setBorder(javax.swing.BorderFactory.createTitledBorder("BUQUE EN OPERACIÓN"));
+
+        txtOperacionDemoras.setText("34097");
+        txtOperacionDemoras.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtOperacionDemorasKeyTyped(evt);
+            }
+        });
+
+        lblOperacionDemoras.setText("Demoras");
+
+        lblOperacionInicio.setText("Inicio Op.");
+
+        lblOperacionInicioHora.setText("Hora:");
+
+        txtOperacionInicioHora.setText("6");
+        txtOperacionInicioHora.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtOperacionInicioHoraKeyTyped(evt);
+            }
+        });
+
+        txtOperacionTerminoHora.setText("6");
+        txtOperacionTerminoHora.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtOperacionTerminoHoraKeyTyped(evt);
+            }
+        });
+
+        lblOperacionTerminoHora.setText("Hora:");
+
+        lblOperacionTermino.setText("Termino Op.");
+
+        javax.swing.GroupLayout pnBuqueOperacionLayout = new javax.swing.GroupLayout(pnBuqueOperacion);
+        pnBuqueOperacion.setLayout(pnBuqueOperacionLayout);
+        pnBuqueOperacionLayout.setHorizontalGroup(
+            pnBuqueOperacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnBuqueOperacionLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnBuqueOperacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(lblOperacionDemoras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblOperacionTermino, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblOperacionInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pnBuqueOperacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtOperacionDemoras, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(pnBuqueOperacionLayout.createSequentialGroup()
+                        .addGroup(pnBuqueOperacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(dateOperacionTermino, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(dateOperacionInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(pnBuqueOperacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnBuqueOperacionLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblOperacionInicioHora)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtOperacionInicioHora))
+                            .addGroup(pnBuqueOperacionLayout.createSequentialGroup()
+                                .addGap(16, 16, 16)
+                                .addComponent(lblOperacionTerminoHora)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtOperacionTerminoHora)))))
+                .addContainerGap())
+        );
+        pnBuqueOperacionLayout.setVerticalGroup(
+            pnBuqueOperacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnBuqueOperacionLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnBuqueOperacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblOperacionInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dateOperacionInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnBuqueOperacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblOperacionInicioHora, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtOperacionInicioHora, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(pnBuqueOperacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblOperacionTermino, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dateOperacionTermino, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnBuqueOperacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblOperacionTerminoHora, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtOperacionTerminoHora, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(pnBuqueOperacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblOperacionDemoras, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtOperacionDemoras, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -295,99 +365,103 @@ public class RendimientoBuque extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel18, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel19, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtOperacionTiempo, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
-                            .addComponent(txtOperacionDemoras)
-                            .addComponent(txtOperacionTerminoOperacion)
-                            .addComponent(txtOperacionInicioOperacion)
-                            .addComponent(txtOperacionRendimiento)))
+                    .addComponent(pnBuquePuerto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnBuqueMuelle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnBuqueOperacion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnOperacionGuardar)))
+                        .addComponent(btnGuardar)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtOperacionInicioOperacion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtOperacionTerminoOperacion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(pnBuquePuerto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtOperacionTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(pnBuqueMuelle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtOperacionDemoras, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(pnBuqueOperacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtOperacionRendimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
-                .addComponent(btnOperacionGuardar)
+                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("OPERACIÓN", jPanel3);
+        root.setViewportView(jPanel3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTabbedPane1))
-                .addContainerGap())
+            .addComponent(root, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jTabbedPane1)
-                .addContainerGap())
+            .addComponent(root)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtPuertoProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPuertoProductoActionPerformed
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtPuertoProductoActionPerformed
+        String puertoBuque = txtPuertoBuque.getText();
+        String puertoMuelle = txtPuertoMuelle.getText();
+        String puertoProducto = txtPuertoProducto.getText();
+        double puertoTonelaje = Double.parseDouble(txtPuertoTonelaje.getText());
+        Date puertoArribo = datePuertoArribo.getDate();
+        double puertoArriboHora = Double.parseDouble(txtPuertoArriboHora.getText());
+        Date puertoDesatraque = datePuertoDesatraque.getDate();
+        double puertoDesatraqueHora = Double.parseDouble(txtPuertoDesatraqueHora.getText());
+        Date muelleAtraque = dateMuelleAtraque.getDate();
+        double muelleAtraqueHora = Double.parseDouble(txtMuelleAtraqueHora.getText());
+        Date operacionInicio = dateOperacionInicio.getDate();
+        double operacionInicioHora = Double.parseDouble(txtOperacionInicioHora.getText());
+        Date operacionTermino = dateOperacionTermino.getDate();
+        double operacionTerminoHora = Double.parseDouble(txtOperacionTerminoHora.getText());
+        double operacionDemoras = Double.parseDouble(txtOperacionDemoras.getText());
 
-    private void txtPuertoArriboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPuertoArriboActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPuertoArriboActionPerformed
+        System.out.println(numberDate(puertoArribo, puertoArriboHora));
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
-    private void txtPuertoDesatraqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPuertoDesatraqueActionPerformed
+    private void txtPuertoTonelajeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPuertoTonelajeKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtPuertoDesatraqueActionPerformed
+        onlyNumber(evt);
+    }//GEN-LAST:event_txtPuertoTonelajeKeyTyped
 
-    private void txtMuelleTiempoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMuelleTiempoActionPerformed
+    private void txtPuertoArriboHoraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPuertoArriboHoraKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtMuelleTiempoActionPerformed
+        onlyNumber(evt);
+    }//GEN-LAST:event_txtPuertoArriboHoraKeyTyped
 
-    private void txtOperacionTiempoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtOperacionTiempoActionPerformed
+    private void txtPuertoDesatraqueHoraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPuertoDesatraqueHoraKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtOperacionTiempoActionPerformed
+        onlyNumber(evt);
+    }//GEN-LAST:event_txtPuertoDesatraqueHoraKeyTyped
+
+    private void txtMuelleAtraqueHoraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMuelleAtraqueHoraKeyTyped
+        // TODO add your handling code here:
+        onlyNumber(evt);
+    }//GEN-LAST:event_txtMuelleAtraqueHoraKeyTyped
+
+    private void txtOperacionInicioHoraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtOperacionInicioHoraKeyTyped
+        // TODO add your handling code here:
+        onlyNumber(evt);
+    }//GEN-LAST:event_txtOperacionInicioHoraKeyTyped
+
+    private void txtOperacionTerminoHoraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtOperacionTerminoHoraKeyTyped
+        // TODO add your handling code here:
+        onlyNumber(evt);
+    }//GEN-LAST:event_txtOperacionTerminoHoraKeyTyped
+
+    private void txtOperacionDemorasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtOperacionDemorasKeyTyped
+        // TODO add your handling code here:
+        onlyNumber(evt);
+    }//GEN-LAST:event_txtOperacionDemorasKeyTyped
 
     /**
      * @param args the command line arguments
@@ -399,12 +473,13 @@ public class RendimientoBuque extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+            javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(RendimientoBuque.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
@@ -425,49 +500,42 @@ public class RendimientoBuque extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnMuelleGuardar;
-    private javax.swing.JButton btnOperacionGuardar;
-    private javax.swing.JButton btnPuertoGuardar;
+    private javax.swing.JButton btnGuardar;
+    private com.toedter.calendar.JDateChooser dateMuelleAtraque;
+    private com.toedter.calendar.JDateChooser dateOperacionInicio;
+    private com.toedter.calendar.JDateChooser dateOperacionTermino;
+    private com.toedter.calendar.JDateChooser datePuertoArribo;
+    private com.toedter.calendar.JDateChooser datePuertoDesatraque;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField txtMuelleAtraque;
-    private javax.swing.JTextField txtMuelleDesatraque;
-    private javax.swing.JTextField txtMuelleRendimiento;
-    private javax.swing.JTextField txtMuelleTiempo;
+    private javax.swing.JLabel lblMuelleAtraque;
+    private javax.swing.JLabel lblMuelleAtraqueHora;
+    private javax.swing.JLabel lblOperacionDemoras;
+    private javax.swing.JLabel lblOperacionInicio;
+    private javax.swing.JLabel lblOperacionInicioHora;
+    private javax.swing.JLabel lblOperacionTermino;
+    private javax.swing.JLabel lblOperacionTerminoHora;
+    private javax.swing.JLabel lblPuertoArribo;
+    private javax.swing.JLabel lblPuertoArriboHora;
+    private javax.swing.JLabel lblPuertoBuque;
+    private javax.swing.JLabel lblPuertoDesatraque;
+    private javax.swing.JLabel lblPuertoDesatraqueHora;
+    private javax.swing.JLabel lblPuertoMuelle;
+    private javax.swing.JLabel lblPuertoProducto;
+    private javax.swing.JLabel lblPuertoTonelaje;
+    private javax.swing.JPanel pnBuqueMuelle;
+    private javax.swing.JPanel pnBuqueOperacion;
+    private javax.swing.JPanel pnBuquePuerto;
+    private javax.swing.JScrollPane root;
+    private javax.swing.JTextField txtMuelleAtraqueHora;
     private javax.swing.JTextField txtOperacionDemoras;
-    private javax.swing.JTextField txtOperacionInicioOperacion;
-    private javax.swing.JTextField txtOperacionRendimiento;
-    private javax.swing.JTextField txtOperacionTerminoOperacion;
-    private javax.swing.JTextField txtOperacionTiempo;
-    private javax.swing.JTextField txtPuertoArribo;
+    private javax.swing.JTextField txtOperacionInicioHora;
+    private javax.swing.JTextField txtOperacionTerminoHora;
+    private javax.swing.JTextField txtPuertoArriboHora;
     private javax.swing.JTextField txtPuertoBuque;
-    private javax.swing.JTextField txtPuertoDesatraque;
+    private javax.swing.JTextField txtPuertoDesatraqueHora;
     private javax.swing.JTextField txtPuertoMuelle;
     private javax.swing.JTextField txtPuertoProducto;
-    private javax.swing.JTextField txtPuertoRendimiento;
-    private javax.swing.JTextField txtPuertoTiempo;
     private javax.swing.JTextField txtPuertoTonelaje;
-    private javax.swing.JTextField txtPuertoZarpe;
     // End of variables declaration//GEN-END:variables
 }
