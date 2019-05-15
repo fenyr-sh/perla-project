@@ -3,6 +3,7 @@ package controllers;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UnsupportedLookAndFeelException;
+import views.rendimiento.buque.Index;
 
 /**
  *
@@ -72,8 +73,7 @@ public class Main {
 //                stmt = null;
 //            }
 //        }
-        
-        RendimientoBuqueController rbc =  new RendimientoBuqueController();
+       
         
         // Establece la apariencia de la aplicación.
         try {
@@ -82,6 +82,7 @@ public class Main {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        rbc.index();
+        Index index =  new Index();
+        index.setVisible(true);
     }
 }

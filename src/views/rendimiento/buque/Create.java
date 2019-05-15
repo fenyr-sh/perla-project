@@ -1,10 +1,12 @@
 package views.rendimiento.buque;
 
-import controllers.RendimientoBuqueController;
 import controllers.Util;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import models.Rendimiento;
 
 /**
  *
@@ -12,10 +14,13 @@ import javax.swing.JOptionPane;
  */
 public class Create extends javax.swing.JFrame {
 
+    private final Connection connection;
+
     /**
      * Creates new form RendimientoBuque
+     * @param connection
      */
-    public Create() {
+    public Create(Connection connection) {
         initComponents();
         Calendar calendar = Calendar.getInstance();
         datePuertoArribo.setCalendar(calendar);
@@ -23,6 +28,7 @@ public class Create extends javax.swing.JFrame {
         dateMuelleAtraque.setCalendar(calendar);
         dateOperacionInicio.setCalendar(calendar);
         dateOperacionTermino.setCalendar(calendar);
+        this.connection = connection;
     }
 
     /**
@@ -409,23 +415,49 @@ public class Create extends javax.swing.JFrame {
             
             JOptionPane.showMessageDialog(rootPane, "Llena todos los campos!");
         }else {
-            String puertoBuque = txtPuertoBuque.getText();
-            String puertoMuelle = txtPuertoMuelle.getText();
-            String puertoProducto = txtPuertoProducto.getText();
-            double puertoTonelaje = Double.parseDouble(txtPuertoTonelaje.getText());
-            Date puertoArribo = datePuertoArribo.getDate();
-            double puertoArriboHora = Double.parseDouble(txtPuertoArriboHora.getText());
-            Date puertoDesatraque = datePuertoDesatraque.getDate();
-            double puertoDesatraqueHora = Double.parseDouble(txtPuertoDesatraqueHora.getText());
-            Date muelleAtraque = dateMuelleAtraque.getDate();
-            double muelleAtraqueHora = Double.parseDouble(txtMuelleAtraqueHora.getText());
-            Date operacionInicio = dateOperacionInicio.getDate();
-            double operacionInicioHora = Double.parseDouble(txtOperacionInicioHora.getText());
-            Date operacionTermino = dateOperacionTermino.getDate();
-            double operacionTerminoHora = Double.parseDouble(txtOperacionTerminoHora.getText());
-            double operacionDemoras = Double.parseDouble(txtOperacionDemoras.getText());
+            try {
+                String puertoBuque = txtPuertoBuque.getText();
+                String puertoMuelle = txtPuertoMuelle.getText();
+                String puertoProducto = txtPuertoProducto.getText();
+                double puertoTonelaje = Double.parseDouble(txtPuertoTonelaje.getText());
+                Date puertoArribo = datePuertoArribo.getDate();
+                double puertoArriboHora = Double.parseDouble(txtPuertoArriboHora.getText());
+                Date puertoDesatraque = datePuertoDesatraque.getDate();
+                double puertoDesatraqueHora = Double.parseDouble(txtPuertoDesatraqueHora.getText());
+                Date muelleAtraque = dateMuelleAtraque.getDate();
+                double muelleAtraqueHora = Double.parseDouble(txtMuelleAtraqueHora.getText());
+                Date operacionInicio = dateOperacionInicio.getDate();
+                double operacionInicioHora = Double.parseDouble(txtOperacionInicioHora.getText());
+                Date operacionTermino = dateOperacionTermino.getDate();
+                double operacionTerminoHora = Double.parseDouble(txtOperacionTerminoHora.getText());
+                double operacionDemoras = Double.parseDouble(txtOperacionDemoras.getText());
+                
+                Rendimiento rendimiento = new Rendimiento(connection);
 
-            JOptionPane.showMessageDialog(rootPane, "Función no disponible!", "Preview", JOptionPane.INFORMATION_MESSAGE);
+                rendimiento.setPuerto_buque(puertoBuque);
+                rendimiento.setPuerto_muelle(puertoMuelle);
+                rendimiento.setPuerto_producto(puertoProducto);
+                rendimiento.setPuerto_tonelaje(puertoTonelaje);
+                rendimiento.setPuerto_arribo(new java.sql.Date(puertoArribo.getTime()));
+                rendimiento.setPuerto_arribo_hora(puertoArriboHora);
+                rendimiento.setPuerto_desatraque(new java.sql.Date(puertoDesatraque.getTime()));
+                rendimiento.setPuerto_desatraque_hora(puertoDesatraqueHora);
+                rendimiento.setMuelle_atraque(new java.sql.Date(muelleAtraque.getTime()));
+                rendimiento.setMuelle_atraque_hora(muelleAtraqueHora);
+                rendimiento.setOperacion_inicio(new java.sql.Date(operacionInicio.getTime()));
+                rendimiento.setOperacion_inicio_hora(operacionInicioHora);
+                rendimiento.setOperacion_termino(new java.sql.Date(operacionTermino.getTime()));
+                rendimiento.setOperacion_termino_hora(operacionTerminoHora);
+                rendimiento.setOperacion_demoras(operacionDemoras);
+                rendimiento.save();
+                
+                JOptionPane.showMessageDialog(rootPane, "Registro guardado exitosamente!!!", "Registro guardado", JOptionPane.INFORMATION_MESSAGE);
+                                
+            } catch (SQLException ex) {
+                System.out.println("SQLException: " + ex.getMessage());
+                System.out.println("SQLState: " + ex.getSQLState());
+                System.out.println("VendorError: " + ex.getErrorCode());
+            }
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -482,7 +514,6 @@ public class Create extends javax.swing.JFrame {
             double puertoArriboHora = Double.parseDouble(txtPuertoArriboHora.getText());
             Date puertoDesatraque = datePuertoDesatraque.getDate();
             double puertoDesatraqueHora = Double.parseDouble(txtPuertoDesatraqueHora.getText());
-            double puertoZarpe = 1;
             Date muelleAtraque = dateMuelleAtraque.getDate();
             double muelleAtraqueHora = Double.parseDouble(txtMuelleAtraqueHora.getText());
             Date operacionInicio = dateOperacionInicio.getDate();
@@ -491,11 +522,14 @@ public class Create extends javax.swing.JFrame {
             double operacionTerminoHora = Double.parseDouble(txtOperacionTerminoHora.getText());
             double operacionDemoras = Double.parseDouble(txtOperacionDemoras.getText());
                         
-            RendimientoBuqueController rbc = new RendimientoBuqueController();
-            rbc.show(puertoBuque, puertoMuelle, puertoProducto, puertoTonelaje, 
-                    puertoArribo, puertoArriboHora, puertoDesatraque, puertoDesatraqueHora, puertoZarpe,
-                    muelleAtraque, muelleAtraqueHora, operacionInicio, operacionInicioHora,
-                    operacionTermino, operacionTerminoHora, operacionDemoras);
+            Show show =  new Show();
+            
+            show.setData(puertoBuque, puertoMuelle, puertoProducto, puertoTonelaje,
+                puertoArribo, puertoArriboHora, puertoDesatraque, puertoDesatraqueHora,
+                muelleAtraque, muelleAtraqueHora, operacionInicio, 
+                operacionInicioHora, operacionTermino, operacionTerminoHora, operacionDemoras);
+        
+            show.setVisible(true);
         }
     }//GEN-LAST:event_btnPreviewActionPerformed
 

@@ -1,10 +1,27 @@
 package controllers;
 
 import com.toedter.calendar.JDateChooser;
+import database.DatabaseConfiguration;
+import database.DatabaseConnection;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 import org.apache.poi.ss.usermodel.DateUtil;
 
 /**
@@ -75,5 +92,52 @@ public final class Util {
         }
         
         return empty;
+    }
+    
+    public static void generatePDF(Component component) {
+        File config_file = new File("db_configuration");
+        DatabaseConfiguration db_config = new DatabaseConfiguration(config_file);
+        // Configuracion predeterminada en caso de no existir un archivo con la configuracion.
+        db_config.setConfiguration("jdbc:mysql:", "localhost", "3306", "app", "guest", "secret", "UTC");
+        
+        try {
+            // Carga la configuracion a partir de un archivo.
+            db_config.loadConfiguration();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        DatabaseConnection db_conn = new DatabaseConnection(db_config);
+        
+        JasperReport report;
+        
+        URL path = component.getClass().getClassLoader().getResource("pdf/rendimiento.jasper");
+
+        Map<String, Object> map = new HashMap<>();
+        
+        try {
+            db_conn.openConnection();
+            report = (JasperReport) JRLoader.loadObject(path);
+            map.put("id_user", 2);
+            
+            JasperPrint jasperPrint = JasperFillManager.fillReport(report, map, db_conn.getConnection());
+            
+            JasperViewer jasperViewer = new JasperViewer(jasperPrint, false);
+            jasperViewer.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            jasperViewer.setVisible(true);
+            
+        } catch (JRException | SQLException ex) {
+            System.out.println(ex.getCause());
+        } finally {
+            
+            try {
+                if (db_conn.getConnection() != null) {
+                    db_conn.closeConnection();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Util.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
     }
 }

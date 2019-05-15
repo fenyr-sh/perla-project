@@ -9,21 +9,6 @@ import java.util.Date;
  */
 public class Show extends javax.swing.JFrame {
 
-//    private String puertoBuque;
-//    private String puertoMuelle;
-//    private String puertoProducto;
-//    private String puertoTonelaje;
-//    private Date puertoArribo;
-//    private double puertoArriboHora;
-//    private Date puertoDesatraque;
-//    private double puertoDesatraqueHora;
-//    private Date muelleAtraque;
-//    private double muelleAtraqueHora;
-//    private Date operacionInicio;
-//    private double operacionInicioHora;
-//    private Date operacionTermino;
-//    private double operacionTerminoHora;
-//    private double operacionDemoras;
     /**
      * Creates new form Preview
      */
@@ -33,13 +18,14 @@ public class Show extends javax.swing.JFrame {
     
     public void setData(String puertoBuque, String puertoMuelle, String puertoProducto,
             double puertoTonelaje, Date puertoArribo, double puertoArriboHora,
-            Date puertoDesatraque, double puertoDesatraqueHora, double puertoZarpe, Date muelleAtraque,
+            Date puertoDesatraque, double puertoDesatraqueHora, Date muelleAtraque,
             double muelleAtraqueHora, Date operacionInicio, double operacionInicioHora,
             Date operacionTermino, double operacionTerminoHora, double operacionDemoras) {
         
         double puerto_arribo = Util.numberDate(puertoArribo, puertoArriboHora);
         double puerto_desatraque = Util.numberDate(puertoDesatraque, puertoDesatraqueHora);
-        double puerto_tiempo = (puerto_desatraque - puerto_arribo) + puertoZarpe;
+        double puerto_zarpe = 1;
+        double puerto_tiempo = (puerto_desatraque - puerto_arribo) + puerto_zarpe;
         double puerto_rendimiento = puertoTonelaje/puerto_tiempo;
         
         double muelle_atraque = Util.numberDate(muelleAtraque, muelleAtraqueHora);
@@ -55,7 +41,7 @@ public class Show extends javax.swing.JFrame {
         txtPuertoMuelle.setText(puertoMuelle);
         txtPuertoProducto.setText(puertoProducto);
         txtPuertoTonelaje.setText(puertoTonelaje + "");
-        txtPuertoZarpe.setText(puertoZarpe + "");
+        txtPuertoZarpe.setText(puerto_zarpe + "");
         txtPuertoArribo.setText((int) Math.round(puerto_arribo) + "");
         txtPuertoDesatraque.setText((int) Math.round(puerto_desatraque) + "");
         txtPuertoTiempo.setText((int) Math.round(puerto_tiempo) + "");
