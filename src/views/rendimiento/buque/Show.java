@@ -18,13 +18,13 @@ public class Show extends javax.swing.JFrame {
     
     public void setData(String puertoBuque, String puertoMuelle, String puertoProducto,
             double puertoTonelaje, Date puertoArribo, double puertoArriboHora,
-            Date puertoDesatraque, double puertoDesatraqueHora, Date muelleAtraque,
+            Date puertoDesatraque, double puertoDesatraqueHora, double puertoZarpe, Date muelleAtraque,
             double muelleAtraqueHora, Date operacionInicio, double operacionInicioHora,
             Date operacionTermino, double operacionTerminoHora, double operacionDemoras) {
         
         double puerto_arribo = Util.numberDate(puertoArribo, puertoArriboHora);
         double puerto_desatraque = Util.numberDate(puertoDesatraque, puertoDesatraqueHora);
-        double puerto_zarpe = 1;
+        double puerto_zarpe = puertoZarpe;
         double puerto_tiempo = (puerto_desatraque - puerto_arribo) + puerto_zarpe;
         double puerto_rendimiento = puertoTonelaje/puerto_tiempo;
         

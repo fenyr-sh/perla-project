@@ -5,8 +5,13 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import models.Rendimiento;
+import models.dao.DAOException;
+import models.dao.DAOManager;
+import models.dao.mysql.MySQLDaoManager;
 
 /**
  *
@@ -60,6 +65,8 @@ public class Create extends javax.swing.JFrame {
         lblPuertoDesatraqueHora = new javax.swing.JLabel();
         datePuertoDesatraque = new com.toedter.calendar.JDateChooser();
         lblPuertoDesatraque = new javax.swing.JLabel();
+        lblPuertoZarpe = new javax.swing.JLabel();
+        txtPuertoZarpe = new javax.swing.JTextField();
         pnBuqueMuelle = new javax.swing.JPanel();
         txtMuelleAtraqueHora = new javax.swing.JTextField();
         lblMuelleAtraqueHora = new javax.swing.JLabel();
@@ -134,6 +141,15 @@ public class Create extends javax.swing.JFrame {
 
         lblPuertoDesatraque.setText("Desatraque:");
 
+        lblPuertoZarpe.setText("Hora Zarpe:");
+
+        txtPuertoZarpe.setText("1");
+        txtPuertoZarpe.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPuertoZarpeKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnBuquePuertoLayout = new javax.swing.GroupLayout(pnBuquePuerto);
         pnBuquePuerto.setLayout(pnBuquePuertoLayout);
         pnBuquePuertoLayout.setHorizontalGroup(
@@ -144,7 +160,8 @@ public class Create extends javax.swing.JFrame {
                     .addComponent(lblPuertoProducto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblPuertoBuque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblPuertoArribo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblPuertoDesatraque, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblPuertoDesatraque, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPuertoZarpe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnBuquePuertoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnBuquePuertoLayout.createSequentialGroup()
@@ -172,7 +189,8 @@ public class Create extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnBuquePuertoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtPuertoTonelaje, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
-                            .addComponent(txtPuertoMuelle, javax.swing.GroupLayout.Alignment.TRAILING))))
+                            .addComponent(txtPuertoMuelle, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addComponent(txtPuertoZarpe, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         pnBuquePuertoLayout.setVerticalGroup(
@@ -202,11 +220,18 @@ public class Create extends javax.swing.JFrame {
                         .addComponent(txtPuertoArriboHora, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(pnBuquePuertoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblPuertoDesatraque, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(datePuertoDesatraque, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(pnBuquePuertoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblPuertoDesatraqueHora, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtPuertoDesatraqueHora, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(pnBuquePuertoLayout.createSequentialGroup()
+                        .addComponent(lblPuertoDesatraque, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblPuertoZarpe, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnBuquePuertoLayout.createSequentialGroup()
+                        .addGroup(pnBuquePuertoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(datePuertoDesatraque, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pnBuquePuertoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblPuertoDesatraqueHora, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtPuertoDesatraqueHora, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(txtPuertoZarpe, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -424,6 +449,7 @@ public class Create extends javax.swing.JFrame {
                 double puertoArriboHora = Double.parseDouble(txtPuertoArriboHora.getText());
                 Date puertoDesatraque = datePuertoDesatraque.getDate();
                 double puertoDesatraqueHora = Double.parseDouble(txtPuertoDesatraqueHora.getText());
+                double puertoZarpe = Double.parseDouble(txtPuertoZarpe.getText());
                 Date muelleAtraque = dateMuelleAtraque.getDate();
                 double muelleAtraqueHora = Double.parseDouble(txtMuelleAtraqueHora.getText());
                 Date operacionInicio = dateOperacionInicio.getDate();
@@ -432,7 +458,7 @@ public class Create extends javax.swing.JFrame {
                 double operacionTerminoHora = Double.parseDouble(txtOperacionTerminoHora.getText());
                 double operacionDemoras = Double.parseDouble(txtOperacionDemoras.getText());
                 
-                Rendimiento rendimiento = new Rendimiento(connection);
+                Rendimiento rendimiento = new Rendimiento();
 
                 rendimiento.setPuerto_buque(puertoBuque);
                 rendimiento.setPuerto_muelle(puertoMuelle);
@@ -442,6 +468,7 @@ public class Create extends javax.swing.JFrame {
                 rendimiento.setPuerto_arribo_hora(puertoArriboHora);
                 rendimiento.setPuerto_desatraque(new java.sql.Date(puertoDesatraque.getTime()));
                 rendimiento.setPuerto_desatraque_hora(puertoDesatraqueHora);
+                rendimiento.setPuerto_zarpe(puertoZarpe);
                 rendimiento.setMuelle_atraque(new java.sql.Date(muelleAtraque.getTime()));
                 rendimiento.setMuelle_atraque_hora(muelleAtraqueHora);
                 rendimiento.setOperacion_inicio(new java.sql.Date(operacionInicio.getTime()));
@@ -449,9 +476,18 @@ public class Create extends javax.swing.JFrame {
                 rendimiento.setOperacion_termino(new java.sql.Date(operacionTermino.getTime()));
                 rendimiento.setOperacion_termino_hora(operacionTerminoHora);
                 rendimiento.setOperacion_demoras(operacionDemoras);
-                rendimiento.save();
                 
-                JOptionPane.showMessageDialog(rootPane, "Registro guardado exitosamente!!!", "Registro guardado", JOptionPane.INFORMATION_MESSAGE);
+                DAOManager manager = new MySQLDaoManager("localhost", "karlos", "", "app");
+                
+                try {
+                    manager.getRendimientoDAO().save(rendimiento);
+                    JOptionPane.showMessageDialog(rootPane, "Registro guardado exitosamente!!!", "Registro guardado", JOptionPane.INFORMATION_MESSAGE);
+
+                } catch (DAOException ex) {
+                    Logger.getLogger(Create.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                
                                 
             } catch (SQLException ex) {
                 System.out.println("SQLException: " + ex.getMessage());
@@ -499,7 +535,7 @@ public class Create extends javax.swing.JFrame {
     private void btnPreviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviewActionPerformed
         // TODO add your handling code here:
         if (Util.fieldIsEmpty(txtPuertoBuque, txtPuertoMuelle, txtPuertoProducto, 
-                txtPuertoTonelaje, txtPuertoArriboHora, txtPuertoDesatraqueHora,
+                txtPuertoTonelaje, txtPuertoArriboHora, txtPuertoDesatraqueHora, txtPuertoZarpe,
                 txtMuelleAtraqueHora, txtOperacionInicioHora, txtOperacionTerminoHora, 
                 txtOperacionDemoras) || Util.dateIsEmpty(datePuertoArribo, datePuertoDesatraque,
                 dateMuelleAtraque, dateOperacionInicio, dateOperacionTermino)) {
@@ -514,6 +550,7 @@ public class Create extends javax.swing.JFrame {
             double puertoArriboHora = Double.parseDouble(txtPuertoArriboHora.getText());
             Date puertoDesatraque = datePuertoDesatraque.getDate();
             double puertoDesatraqueHora = Double.parseDouble(txtPuertoDesatraqueHora.getText());
+            double puertoZarpe = Double.parseDouble(txtPuertoZarpe.getText());
             Date muelleAtraque = dateMuelleAtraque.getDate();
             double muelleAtraqueHora = Double.parseDouble(txtMuelleAtraqueHora.getText());
             Date operacionInicio = dateOperacionInicio.getDate();
@@ -526,12 +563,17 @@ public class Create extends javax.swing.JFrame {
             
             show.setData(puertoBuque, puertoMuelle, puertoProducto, puertoTonelaje,
                 puertoArribo, puertoArriboHora, puertoDesatraque, puertoDesatraqueHora,
-                muelleAtraque, muelleAtraqueHora, operacionInicio, 
+                puertoZarpe, muelleAtraque, muelleAtraqueHora, operacionInicio, 
                 operacionInicioHora, operacionTermino, operacionTerminoHora, operacionDemoras);
         
             show.setVisible(true);
         }
     }//GEN-LAST:event_btnPreviewActionPerformed
+
+    private void txtPuertoZarpeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPuertoZarpeKeyTyped
+        // TODO add your handling code here:
+        Util.onlyNumber(this, evt);
+    }//GEN-LAST:event_txtPuertoZarpeKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;
@@ -558,6 +600,7 @@ public class Create extends javax.swing.JFrame {
     private javax.swing.JLabel lblPuertoMuelle;
     private javax.swing.JLabel lblPuertoProducto;
     private javax.swing.JLabel lblPuertoTonelaje;
+    private javax.swing.JLabel lblPuertoZarpe;
     private javax.swing.JPanel pnBuqueMuelle;
     private javax.swing.JPanel pnBuqueOperacion;
     private javax.swing.JPanel pnBuquePuerto;
@@ -572,5 +615,6 @@ public class Create extends javax.swing.JFrame {
     private javax.swing.JTextField txtPuertoMuelle;
     private javax.swing.JTextField txtPuertoProducto;
     private javax.swing.JTextField txtPuertoTonelaje;
+    private javax.swing.JTextField txtPuertoZarpe;
     // End of variables declaration//GEN-END:variables
 }

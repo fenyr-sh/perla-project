@@ -1,9 +1,6 @@
 package models;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.util.Date;
 
 /**
  *
@@ -11,7 +8,7 @@ import java.sql.SQLException;
  */
 public class Rendimiento {
     
-    private int id;
+    private Long id = null;
     private String puerto_buque;
     private String puerto_muelle;
     private String puerto_producto;
@@ -20,6 +17,7 @@ public class Rendimiento {
     private double puerto_arribo_hora;
     private Date puerto_desatraque;
     private double puerto_desatraque_hora;
+    private double puerto_zarpe;
     private Date muelle_atraque;
     private double muelle_atraque_hora;
     private Date operacion_inicio;
@@ -27,35 +25,38 @@ public class Rendimiento {
     private Date operacion_termino;
     private double operacion_termino_hora;
     private double operacion_demoras;
-    private final Connection connection;
-    private String table = "rendimientos";
-    private final String INSERT = "INSERT INTO " + table 
-            + " (id, puerto_buque, puerto_muelle, puerto_producto, puerto_tonelaje, "
-            + "puerto_arribo, puerto_arribo_hora, puerto_desatraque, puerto_desatraque_hora, "
-            + "muelle_atraque, muelle_atraque_hora, operacion_inicio, "
-            + "operacion_inicio_hora, operacion_termino, operacion_termino_hora,"
-            + "operacion_demoras) VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-    public Rendimiento(Connection connection) {
-        this.connection = connection;
+    public Rendimiento(String puerto_buque, String puerto_muelle, String puerto_producto, double puerto_tonelaje, Date puerto_arribo, double puerto_arribo_hora, Date puerto_desatraque, double puerto_desatraque_hora, double puerto_zarpe, Date muelle_atraque, double muelle_atraque_hora, Date operacion_inicio, double operacion_inicio_hora, Date operacion_termino, double operacion_termino_hora, double operacion_demoras) {
+        this.puerto_buque = puerto_buque;
+        this.puerto_muelle = puerto_muelle;
+        this.puerto_producto = puerto_producto;
+        this.puerto_tonelaje = puerto_tonelaje;
+        this.puerto_arribo = puerto_arribo;
+        this.puerto_arribo_hora = puerto_arribo_hora;
+        this.puerto_desatraque = puerto_desatraque;
+        this.puerto_desatraque_hora = puerto_desatraque_hora;
+        this.puerto_zarpe = puerto_zarpe;
+        this.muelle_atraque = muelle_atraque;
+        this.muelle_atraque_hora = muelle_atraque_hora;
+        this.operacion_inicio = operacion_inicio;
+        this.operacion_inicio_hora = operacion_inicio_hora;
+        this.operacion_termino = operacion_termino;
+        this.operacion_termino_hora = operacion_termino_hora;
+        this.operacion_demoras = operacion_demoras;
     }
 
-    public String getTable() {
-        return table;
+    public Rendimiento() {
+        
     }
 
-    public void setTable(String table) {
-        this.table = table;
-    }
-
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
-    
+
     public String getPuerto_buque() {
         return puerto_buque;
     }
@@ -120,6 +121,14 @@ public class Rendimiento {
         this.puerto_desatraque_hora = puerto_desatraque_hora;
     }
 
+    public double getPuerto_zarpe() {
+        return puerto_zarpe;
+    }
+
+    public void setPuerto_zarpe(double puerto_zarpe) {
+        this.puerto_zarpe = puerto_zarpe;
+    }
+
     public Date getMuelle_atraque() {
         return muelle_atraque;
     }
@@ -175,32 +184,5 @@ public class Rendimiento {
     public void setOperacion_demoras(double operacion_demoras) {
         this.operacion_demoras = operacion_demoras;
     }
-    
-    public void save() throws SQLException {
-        PreparedStatement ps = connection.prepareStatement(INSERT);
-        
-        ps.setString(1, puerto_buque);
-        ps.setString(2, puerto_muelle);
-        ps.setString(3, puerto_producto);
-        ps.setDouble(4, puerto_tonelaje);
-        ps.setDate(5, puerto_arribo);
-        ps.setDouble(6, puerto_arribo_hora);
-        ps.setDate(7, puerto_desatraque);
-        ps.setDouble(8, puerto_desatraque_hora);
-        ps.setDate(9, muelle_atraque);
-        ps.setDouble(10, muelle_atraque_hora);
-        ps.setDate(11, operacion_inicio);
-        ps.setDouble(12, operacion_inicio_hora);
-        ps.setDate(13, operacion_termino);
-        ps.setDouble(14, operacion_termino_hora);
-        ps.setDouble(15, operacion_demoras);
-        
-        ps.executeUpdate();
-        
-        if (connection != null) {
-            connection.close();
-        }
-    }
-    
-    
+
 }

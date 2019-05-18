@@ -5,14 +5,11 @@
  */
 package views.rendimiento.buque;
 
-import controllers.RendimientoBuqueController;
 import database.DatabaseConfiguration;
 import database.DatabaseConnection;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -136,14 +133,17 @@ public class Index extends javax.swing.JFrame {
 
         try {
             db_conn.openConnection();
+            
+            Create create =  new Create(db_conn.getConnection());
+            create.setVisible(true);
+            
         } catch (SQLException ex) {
+            System.out.println("Error en index");
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
         }
         
-        Create create =  new Create(db_conn.getConnection());
-        create.setVisible(true);
     }//GEN-LAST:event_mnItemAgregarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
