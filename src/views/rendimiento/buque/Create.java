@@ -1,12 +1,11 @@
 package views.rendimiento.buque;
 
 import controllers.Util;
-import java.sql.Connection;
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import models.Rendimiento;
 import models.dao.DAOException;
@@ -19,13 +18,10 @@ import models.dao.mysql.MySQLDaoManager;
  */
 public class Create extends javax.swing.JFrame {
 
-    private final Connection connection;
-
     /**
      * Creates new form RendimientoBuque
-     * @param connection
      */
-    public Create(Connection connection) {
+    public Create() {
         initComponents();
         Calendar calendar = Calendar.getInstance();
         datePuertoArribo.setCalendar(calendar);
@@ -33,7 +29,6 @@ public class Create extends javax.swing.JFrame {
         dateMuelleAtraque.setCalendar(calendar);
         dateOperacionInicio.setCalendar(calendar);
         dateOperacionTermino.setCalendar(calendar);
-        this.connection = connection;
     }
 
     /**
@@ -432,14 +427,14 @@ public class Create extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        if (Util.fieldIsEmpty(txtPuertoBuque, txtPuertoMuelle, txtPuertoProducto, 
+        if (Util.fieldIsEmpty(txtPuertoBuque, txtPuertoMuelle, txtPuertoProducto,
                 txtPuertoTonelaje, txtPuertoArriboHora, txtPuertoDesatraqueHora,
-                txtMuelleAtraqueHora, txtOperacionInicioHora, txtOperacionTerminoHora, 
+                txtMuelleAtraqueHora, txtOperacionInicioHora, txtOperacionTerminoHora,
                 txtOperacionDemoras) || Util.dateIsEmpty(datePuertoArribo, datePuertoDesatraque,
-                dateMuelleAtraque, dateOperacionInicio, dateOperacionTermino)) {
-            
+                        dateMuelleAtraque, dateOperacionInicio, dateOperacionTermino)) {
+
             JOptionPane.showMessageDialog(rootPane, "Llena todos los campos!");
-        }else {
+        } else {
             try {
                 String puertoBuque = txtPuertoBuque.getText();
                 String puertoMuelle = txtPuertoMuelle.getText();
@@ -457,9 +452,8 @@ public class Create extends javax.swing.JFrame {
                 Date operacionTermino = dateOperacionTermino.getDate();
                 double operacionTerminoHora = Double.parseDouble(txtOperacionTerminoHora.getText());
                 double operacionDemoras = Double.parseDouble(txtOperacionDemoras.getText());
-                
-                Rendimiento rendimiento = new Rendimiento();
 
+                Rendimiento rendimiento = new Rendimiento();
                 rendimiento.setPuerto_buque(puertoBuque);
                 rendimiento.setPuerto_muelle(puertoMuelle);
                 rendimiento.setPuerto_producto(puertoProducto);
@@ -476,23 +470,26 @@ public class Create extends javax.swing.JFrame {
                 rendimiento.setOperacion_termino(new java.sql.Date(operacionTermino.getTime()));
                 rendimiento.setOperacion_termino_hora(operacionTerminoHora);
                 rendimiento.setOperacion_demoras(operacionDemoras);
-                
-                DAOManager manager = new MySQLDaoManager("localhost", "karlos", "", "app");
-                
-                try {
-                    manager.getRendimientoDAO().save(rendimiento);
-                    JOptionPane.showMessageDialog(rootPane, "Registro guardado exitosamente!!!", "Registro guardado", JOptionPane.INFORMATION_MESSAGE);
 
-                } catch (DAOException ex) {
-                    Logger.getLogger(Create.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                File config_file = new File("db_configuration");
+
+                DAOManager manager = new MySQLDaoManager();
+
+                manager.loadConfigurationFromFile(config_file);
                 
+                manager.getRendimientoDAO().save(rendimiento);
+
+                manager.closeConnection();
+                JOptionPane.showMessageDialog(rootPane, "Registro guardado exitosamente!!!", "Registro guardado", JOptionPane.INFORMATION_MESSAGE);
                 
-                                
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(rootPane, "Error de formato en campo", "Formato no valido", JOptionPane.ERROR_MESSAGE);
+            } catch (DAOException ex) {
+                JOptionPane.showMessageDialog(rootPane, "Error al guardar en la base de datos!!!", "Error al guardar", JOptionPane.ERROR_MESSAGE);
             } catch (SQLException ex) {
-                System.out.println("SQLException: " + ex.getMessage());
-                System.out.println("SQLState: " + ex.getSQLState());
-                System.out.println("VendorError: " + ex.getErrorCode());
+                JOptionPane.showMessageDialog(rootPane, "Error al conectar con la base de datos!!!", "Error de conexión", JOptionPane.ERROR_MESSAGE);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(rootPane, "Error al leer configuracion del archivo!!!", "Archivo de configuracion no valido", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
@@ -534,14 +531,14 @@ public class Create extends javax.swing.JFrame {
 
     private void btnPreviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviewActionPerformed
         // TODO add your handling code here:
-        if (Util.fieldIsEmpty(txtPuertoBuque, txtPuertoMuelle, txtPuertoProducto, 
+        if (Util.fieldIsEmpty(txtPuertoBuque, txtPuertoMuelle, txtPuertoProducto,
                 txtPuertoTonelaje, txtPuertoArriboHora, txtPuertoDesatraqueHora, txtPuertoZarpe,
-                txtMuelleAtraqueHora, txtOperacionInicioHora, txtOperacionTerminoHora, 
+                txtMuelleAtraqueHora, txtOperacionInicioHora, txtOperacionTerminoHora,
                 txtOperacionDemoras) || Util.dateIsEmpty(datePuertoArribo, datePuertoDesatraque,
-                dateMuelleAtraque, dateOperacionInicio, dateOperacionTermino)) {
-            
+                        dateMuelleAtraque, dateOperacionInicio, dateOperacionTermino)) {
+
             JOptionPane.showMessageDialog(rootPane, "Llena todos los campos!");
-        }else {
+        } else {
             String puertoBuque = txtPuertoBuque.getText();
             String puertoMuelle = txtPuertoMuelle.getText();
             String puertoProducto = txtPuertoProducto.getText();
@@ -558,14 +555,14 @@ public class Create extends javax.swing.JFrame {
             Date operacionTermino = dateOperacionTermino.getDate();
             double operacionTerminoHora = Double.parseDouble(txtOperacionTerminoHora.getText());
             double operacionDemoras = Double.parseDouble(txtOperacionDemoras.getText());
-                        
-            Show show =  new Show();
-            
+
+            Show show = new Show();
+
             show.setData(puertoBuque, puertoMuelle, puertoProducto, puertoTonelaje,
-                puertoArribo, puertoArriboHora, puertoDesatraque, puertoDesatraqueHora,
-                puertoZarpe, muelleAtraque, muelleAtraqueHora, operacionInicio, 
-                operacionInicioHora, operacionTermino, operacionTerminoHora, operacionDemoras);
-        
+                    puertoArribo, puertoArriboHora, puertoDesatraque, puertoDesatraqueHora,
+                    puertoZarpe, muelleAtraque, muelleAtraqueHora, operacionInicio,
+                    operacionInicioHora, operacionTermino, operacionTerminoHora, operacionDemoras);
+
             show.setVisible(true);
         }
     }//GEN-LAST:event_btnPreviewActionPerformed

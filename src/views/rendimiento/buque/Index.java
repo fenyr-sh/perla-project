@@ -1,15 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package views.rendimiento.buque;
-
-import database.DatabaseConfiguration;
-import database.DatabaseConnection;
-import java.io.File;
-import java.io.IOException;
-import java.sql.SQLException;
 
 /**
  *
@@ -118,32 +107,8 @@ public class Index extends javax.swing.JFrame {
 
     private void mnItemAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemAgregarActionPerformed
         // TODO add your handling code here:
-        File config_file = new File("db_configuration");
-        DatabaseConfiguration db_config = new DatabaseConfiguration(config_file);
-        // Configuracion predeterminada en caso de no existir un archivo con la configuracion.
-        db_config.setConfiguration("jdbc:mysql:", "localhost", "3306", "app", "guest", "secret", "UTC");
-
-        try {
-            db_config.loadConfiguration();
-        } catch (IOException ex) {
-            System.out.println("Archivo de configuracion no encontrado!!!");
-        }
-
-        DatabaseConnection db_conn = new DatabaseConnection(db_config);
-
-        try {
-            db_conn.openConnection();
-            
-            Create create =  new Create(db_conn.getConnection());
-            create.setVisible(true);
-            
-        } catch (SQLException ex) {
-            System.out.println("Error en index");
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
-        }
-        
+        Create create =  new Create();
+        create.setVisible(true);
     }//GEN-LAST:event_mnItemAgregarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
