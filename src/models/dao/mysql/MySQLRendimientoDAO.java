@@ -21,7 +21,7 @@ public class MySQLRendimientoDAO implements RendimientoDAO {
     private final String INSERT = "INSERT INTO rendimientos(puerto_buque, puerto_muelle, puerto_producto, puerto_tonelaje, puerto_arribo, puerto_arribo_hora, puerto_desatraque, puerto_desatraque_hora, puerto_zarpe, muelle_atraque, muelle_atraque_hora, operacion_inicio, operacion_inicio_hora, operacion_termino, operacion_termino_hora, operacion_demoras) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     private final String UPDATE = "UPDATE rendimientos SET puerto_buque = ?, puerto_muelle = ?, puerto_producto = ?, puerto_tonelaje = ?, puerto_arribo = ?, puerto_arribo_hora = ?, puerto_desatraque = ?, puerto_desatraque_hora = ?, puerto_zarpe = ?, muelle_atraque = ?, muelle_atraque_hora = ?, operacion_inicio = ?, operacion_inicio_hora = ?, operacion_termino = ?, operacion_termino_hora = ?, operacion_demoras = ? WHERE id = ?";
     private final String DELETE = "DELETE FROM rendimientos WHERE id = ?";
-    private final String GETALL = "SELECT * FROM rendimientos";
+    private final String GETALL = "SELECT * FROM rendimientos ORDER BY id DESC LIMIT 50";
     private final String GETONE = "SELECT * FROM rendimientos WHERE id = ?";
     
     public MySQLRendimientoDAO(Connection conn) {

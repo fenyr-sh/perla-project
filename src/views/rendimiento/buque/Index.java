@@ -1,16 +1,32 @@
 package views.rendimiento.buque;
 
+import controllers.RendimientoTableModel;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import models.Rendimiento;
+import models.dao.DAOException;
+import models.dao.DAOManager;
+
 /**
  *
  * @author Fenyr Shell
  */
 public class Index extends javax.swing.JFrame {
 
+    private final RendimientoTableModel model;
+    private final DAOManager manager;
+    
     /**
      * Creates new form Index
+     * @param manager
+     * @throws models.dao.DAOException
      */
-    public Index() {
+    public Index(DAOManager manager) throws DAOException {
         initComponents();
+        this.manager = manager;
+        this.model = new RendimientoTableModel(manager.getRendimientoDAO());
+        this.model.updateModel();
+        this.jTable1.setModel(model);
     }
 
     /**
@@ -27,18 +43,19 @@ public class Index extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        mnItemAgregar = new javax.swing.JMenuItem();
+        btnAgregar = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Index");
+        setTitle("Rendimiento de Buques");
 
         jScrollPane1.setBorder(null);
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Rendimiento de Buques");
+        jLabel1.setText("Rendimientos");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -53,6 +70,34 @@ public class Index extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(jTable1);
 
+        btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
+
+        btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
+
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout rootLayout = new javax.swing.GroupLayout(root);
         root.setLayout(rootLayout);
         rootLayout.setHorizontalGroup(
@@ -61,7 +106,16 @@ public class Index extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(rootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 711, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 753, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rootLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnAgregar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEditar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEliminar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnBuscar)))
                 .addContainerGap())
         );
         rootLayout.setVerticalGroup(
@@ -70,25 +124,17 @@ public class Index extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(rootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBuscar)
+                    .addComponent(btnEliminar)
+                    .addComponent(btnEditar)
+                    .addComponent(btnAgregar))
                 .addContainerGap())
         );
 
         jScrollPane1.setViewportView(root);
-
-        jMenu1.setText("Rendimiento");
-
-        mnItemAgregar.setText("Agregar");
-        mnItemAgregar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnItemAgregarActionPerformed(evt);
-            }
-        });
-        jMenu1.add(mnItemAgregar);
-
-        jMenuBar1.add(jMenu1);
-
-        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -105,20 +151,65 @@ public class Index extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void mnItemAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemAgregarActionPerformed
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // Falta confirmacion y que solo elimine cuando este seleccionado una fila
+        // Java: JDBC – 18. Ejemplo: CRUD Alumnos (parte 3) min 13:10
+        try {
+            Rendimiento rendimiento = getRendimientoSeleccionado();
+            manager.getRendimientoDAO().delete(rendimiento);
+            
+            model.updateModel();
+            model.fireTableDataChanged();
+        } catch (DAOException ex) {
+            Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        Create create =  new Create();
-        create.setVisible(true);
-    }//GEN-LAST:event_mnItemAgregarActionPerformed
+        
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    public void update() {
+        try {
+            model.updateModel();
+            model.fireTableDataChanged();
+        } catch (DAOException ex) {
+            Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private Rendimiento getRendimientoSeleccionado() throws DAOException {
+        Long id = (Long) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
+        
+        return manager.getRendimientoDAO().get(id);
+    }
+    
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        // TODO add your handling code here:
+        new Create(manager, model).setVisible(true);
+        
+        try {
+            model.updateModel();
+            model.fireTableDataChanged();
+        } catch (DAOException ex) {
+            Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JMenuItem mnItemAgregar;
     private javax.swing.JPanel root;
     // End of variables declaration//GEN-END:variables
 }

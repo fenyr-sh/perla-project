@@ -1,11 +1,14 @@
 package views.rendimiento.buque;
 
+import controllers.RendimientoTableModel;
 import controllers.Util;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import models.Rendimiento;
 import models.dao.DAOException;
@@ -18,11 +21,17 @@ import models.dao.mysql.MySQLDaoManager;
  */
 public class Create extends javax.swing.JFrame {
 
+    private final RendimientoTableModel model;
+    private final DAOManager manager;
+    
     /**
      * Creates new form RendimientoBuque
+     * @param manager
      */
-    public Create() {
+    public Create(DAOManager manager, RendimientoTableModel model) {
         initComponents();
+        this.manager = manager;
+        this.model = model;
         Calendar calendar = Calendar.getInstance();
         datePuertoArribo.setCalendar(calendar);
         datePuertoDesatraque.setCalendar(calendar);
@@ -470,26 +479,21 @@ public class Create extends javax.swing.JFrame {
                 rendimiento.setOperacion_termino(new java.sql.Date(operacionTermino.getTime()));
                 rendimiento.setOperacion_termino_hora(operacionTerminoHora);
                 rendimiento.setOperacion_demoras(operacionDemoras);
-
-                File config_file = new File("db_configuration");
-
-                DAOManager manager = new MySQLDaoManager();
-
-                manager.loadConfigurationFromFile(config_file);
                 
                 manager.getRendimientoDAO().save(rendimiento);
 
-                manager.closeConnection();
                 JOptionPane.showMessageDialog(rootPane, "Registro guardado exitosamente!!!", "Registro guardado", JOptionPane.INFORMATION_MESSAGE);
-                
+
+                try {
+                    model.updateModel();
+                    model.fireTableDataChanged();
+                } catch (DAOException ex) {
+                    Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(rootPane, "Error de formato en campo", "Formato no valido", JOptionPane.ERROR_MESSAGE);
             } catch (DAOException ex) {
                 JOptionPane.showMessageDialog(rootPane, "Error al guardar en la base de datos!!!", "Error al guardar", JOptionPane.ERROR_MESSAGE);
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(rootPane, "Error al conectar con la base de datos!!!", "Error de conexión", JOptionPane.ERROR_MESSAGE);
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(rootPane, "Error al leer configuracion del archivo!!!", "Archivo de configuracion no valido", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
