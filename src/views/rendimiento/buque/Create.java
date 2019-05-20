@@ -2,9 +2,6 @@ package views.rendimiento.buque;
 
 import controllers.RendimientoTableModel;
 import controllers.Util;
-import java.io.File;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
@@ -13,7 +10,6 @@ import javax.swing.JOptionPane;
 import models.Rendimiento;
 import models.dao.DAOException;
 import models.dao.DAOManager;
-import models.dao.mysql.MySQLDaoManager;
 
 /**
  *
@@ -27,6 +23,7 @@ public class Create extends javax.swing.JFrame {
     /**
      * Creates new form RendimientoBuque
      * @param manager
+     * @param model
      */
     public Create(DAOManager manager, RendimientoTableModel model) {
         initComponents();

@@ -57,6 +57,13 @@ public class Show extends javax.swing.JFrame {
         txtOperacionTiempo.setText((int) Math.round(operacion_tiempo) + "");
         txtOperacionDemoras.setText(operacionDemoras + "");
         txtOperacionRendimiento.setText((int) Math.round(operacion_rendimiento) + "");
+        
+        txtPuertoArribo.setToolTipText(puertoArribo + "");
+        txtPuertoDesatraque.setToolTipText(puertoDesatraque.toString());
+        txtMuelleAtraque.setToolTipText(muelleAtraque.toString());
+        txtMuelleDesatraque.setToolTipText(puertoDesatraque.toString());
+        txtOperacionInicio.setToolTipText(operacionInicio.toString());
+        txtOperacionTermino.setToolTipText(operacionTermino.toString());
     }
 
     /**

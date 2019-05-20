@@ -1,8 +1,10 @@
 package views.rendimiento.buque;
 
 import controllers.RendimientoTableModel;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import models.Rendimiento;
 import models.dao.DAOException;
 import models.dao.DAOManager;
@@ -27,6 +29,19 @@ public class Index extends javax.swing.JFrame {
         this.model = new RendimientoTableModel(manager.getRendimientoDAO());
         this.model.updateModel();
         this.jTable1.setModel(model);
+        
+        
+        this.btnEliminar.setEnabled(false);
+        this.btnEditar.setEnabled(false);
+        this.btnVer.setEnabled(false);
+        
+        this.jTable1.getSelectionModel().addListSelectionListener(e -> {
+            boolean seleccionValida = (jTable1.getSelectedRow() != -1);
+            this.btnEliminar.setEnabled(seleccionValida);
+            this.btnEditar.setEnabled(seleccionValida);
+            this.btnVer.setEnabled(seleccionValida);
+        });
+        
     }
 
     /**
@@ -47,6 +62,8 @@ public class Index extends javax.swing.JFrame {
         btnEditar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
+        btnVer = new javax.swing.JButton();
+        txtBuscar = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Rendimiento de Buques");
@@ -68,6 +85,7 @@ public class Index extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTable1.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(jTable1);
 
         btnAgregar.setText("Agregar");
@@ -98,6 +116,19 @@ public class Index extends javax.swing.JFrame {
             }
         });
 
+        btnVer.setText("Ver");
+        btnVer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerActionPerformed(evt);
+            }
+        });
+
+        txtBuscar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtBuscarFocusGained(evt);
+            }
+        });
+
         javax.swing.GroupLayout rootLayout = new javax.swing.GroupLayout(root);
         root.setLayout(rootLayout);
         rootLayout.setHorizontalGroup(
@@ -108,12 +139,15 @@ public class Index extends javax.swing.JFrame {
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 753, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rootLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnVer)
+                        .addGap(18, 18, 18)
                         .addComponent(btnAgregar)
                         .addGap(18, 18, 18)
                         .addComponent(btnEditar)
                         .addGap(18, 18, 18)
                         .addComponent(btnEliminar)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtBuscar)
                         .addGap(18, 18, 18)
                         .addComponent(btnBuscar)))
                 .addContainerGap())
@@ -127,10 +161,12 @@ public class Index extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(rootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnBuscar)
-                    .addComponent(btnEliminar)
-                    .addComponent(btnEditar)
-                    .addComponent(btnAgregar))
+                    .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnVer, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -152,17 +188,21 @@ public class Index extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // Falta confirmacion y que solo elimine cuando este seleccionado una fila
-        // Java: JDBC – 18. Ejemplo: CRUD Alumnos (parte 3) min 13:10
+        Rendimiento rendimiento;
+        
         try {
-            Rendimiento rendimiento = getRendimientoSeleccionado();
-            manager.getRendimientoDAO().delete(rendimiento);
-            
-            model.updateModel();
-            model.fireTableDataChanged();
+            rendimiento = getRendimientoSeleccionado();
+            if (JOptionPane.showConfirmDialog(rootPane, "¿Seguro que quieres borrar este rendimiento?" + "\nID = " + rendimiento.getId() + ", BUQUE = " + rendimiento.getPuerto_buque(),
+                    "Borrar rendimiento", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+
+                manager.getRendimientoDAO().delete(rendimiento);
+
+                model.updateModel();
+                model.fireTableDataChanged();
+            }
         } catch (DAOException ex) {
             Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }  
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
@@ -201,15 +241,61 @@ public class Index extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEditarActionPerformed
 
+    private void txtBuscarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarFocusGained
+        // TODO add your handling code here:
+        try {
+            model.updateModel();
+            model.fireTableDataChanged();
+        } catch (DAOException ex) {
+            Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_txtBuscarFocusGained
+
+    private void btnVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerActionPerformed
+        try {
+            Rendimiento r = getRendimientoSeleccionado();
+            
+            String puertoBuque = r.getPuerto_buque();
+            String puertoMuelle = r.getPuerto_muelle();
+            String puertoProducto = r.getPuerto_producto();
+            double puertoTonelaje = r.getPuerto_tonelaje();
+            Date puertoArribo = r.getPuerto_arribo();
+            double puertoArriboHora = r.getPuerto_arribo_hora();
+            Date puertoDesatraque = r.getPuerto_desatraque();
+            double puertoDesatraqueHora = r.getPuerto_desatraque_hora();
+            double puertoZarpe = r.getPuerto_zarpe();
+            Date muelleAtraque = r.getMuelle_atraque();
+            double muelleAtraqueHora = r.getMuelle_atraque_hora();
+            Date operacionInicio = r.getOperacion_inicio();
+            double operacionInicioHora = r.getOperacion_inicio_hora();
+            Date operacionTermino = r.getOperacion_termino();
+            double operacionTerminoHora = r.getOperacion_termino_hora();
+            double operacionDemoras = r.getOperacion_demoras();
+            
+            Show show = new Show();
+
+            show.setData(puertoBuque, puertoMuelle, puertoProducto, puertoTonelaje,
+                    puertoArribo, puertoArriboHora, puertoDesatraque, puertoDesatraqueHora,
+                    puertoZarpe, muelleAtraque, muelleAtraqueHora, operacionInicio,
+                    operacionInicioHora, operacionTermino, operacionTerminoHora, operacionDemoras);
+
+            show.setVisible(true);
+        } catch (DAOException ex) {
+            Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);
+        }  
+    }//GEN-LAST:event_btnVerActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnVer;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JPanel root;
+    private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 }

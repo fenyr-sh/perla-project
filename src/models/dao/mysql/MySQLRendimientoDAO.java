@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import models.Rendimiento;
 import models.dao.DAOException;
@@ -156,19 +157,18 @@ public class MySQLRendimientoDAO implements RendimientoDAO {
         String puerto_muelle = rs.getString("puerto_muelle");
         String puerto_producto = rs.getString("puerto_producto");
         double puerto_tonelaje = rs.getDouble("puerto_tonelaje");
-        Date puerto_arribo = rs.getDate("puerto_arribo");
+        Date puerto_arribo = rs.getDate("puerto_arribo", Calendar.getInstance());
         double puerto_arribo_hora = rs.getDouble("puerto_arribo_hora");
-        Date puerto_desatraque = rs.getDate("puerto_desatraque");
+        Date puerto_desatraque = rs.getDate("puerto_desatraque", Calendar.getInstance());
         double puerto_desatraque_hora = rs.getDouble("puerto_desatraque_hora");
         double puerto_zarpe = rs.getDouble("puerto_zarpe");
-        Date muelle_atraque = rs.getDate("muelle_atraque");
+        Date muelle_atraque = rs.getDate("muelle_atraque", Calendar.getInstance());
         double muelle_atraque_hora = rs.getDouble("muelle_atraque_hora");
-        Date operacion_inicio = rs.getDate("operacion_inicio");
+        Date operacion_inicio = rs.getDate("operacion_inicio", Calendar.getInstance());
         double operacion_inicio_hora = rs.getDouble("operacion_inicio_hora");
-        Date operacion_termino = rs.getDate("operacion_termino");
+        Date operacion_termino = rs.getDate("operacion_termino", Calendar.getInstance());
         double operacion_termino_hora = rs.getDouble("operacion_termino_hora");
         double operacion_demoras = rs.getDouble("operacion_demoras");
-        
         Rendimiento rendimiento = new Rendimiento(puerto_buque, puerto_muelle, puerto_producto, puerto_tonelaje, puerto_arribo, puerto_arribo_hora, puerto_desatraque, puerto_desatraque_hora, puerto_zarpe, muelle_atraque, muelle_atraque_hora, operacion_inicio, operacion_inicio_hora, operacion_termino, operacion_termino_hora, operacion_demoras);
         rendimiento.setId(rs.getLong("id"));
         

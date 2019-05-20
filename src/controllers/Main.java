@@ -3,9 +3,7 @@ package controllers;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.JOptionPane;
 import models.dao.DAOException;
 import models.dao.DAOManager;
 import models.dao.mysql.MySQLDaoManager;
@@ -37,17 +35,14 @@ public class Main {
             new Index(manager).setVisible(true);
             
         } catch (IOException ex) {
-            
+            System.out.println("Error en IO: " + ex);
         } catch (SQLException ex) {
-            
+            JOptionPane.showMessageDialog(null, "No se puede conectar con la base de datos!"
+                    + "\nRevisa el archivo de configuración."
+                    + "\n\nError: \n" + ex.getMessage(), "Error de conexión", JOptionPane.ERROR_MESSAGE);
         } catch (DAOException ex) {
-            
-        }
-
-        
-
-        
-        
+            System.out.println("Error en DAO: " + ex);
+        }        
         
     }
 }
