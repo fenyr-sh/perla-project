@@ -15,26 +15,43 @@ import models.dao.DAOManager;
  *
  * @author Fenyr Shell
  */
-public class Create extends javax.swing.JFrame {
+public class Edit extends javax.swing.JFrame {
 
     private final RendimientoTableModel model;
     private final DAOManager manager;
+    private final Rendimiento rendimiento;
     
     /**
      * Creates new form RendimientoBuque
      * @param manager
      * @param model
+     * @param r
      */
-    public Create(DAOManager manager, RendimientoTableModel model) {
+    public Edit(DAOManager manager, RendimientoTableModel model, Rendimiento r) {
         initComponents();
         this.manager = manager;
         this.model = model;
-        Calendar calendar = Calendar.getInstance();
-        datePuertoArribo.setCalendar(calendar);
-        datePuertoDesatraque.setCalendar(calendar);
-        dateMuelleAtraque.setCalendar(calendar);
-        dateOperacionInicio.setCalendar(calendar);
-        dateOperacionTermino.setCalendar(calendar);
+        this.rendimiento = r;
+        
+        txtPuertoBuque.setText(r.getPuerto_buque());
+        txtPuertoMuelle.setText(r.getPuerto_muelle());
+        txtPuertoProducto.setText(r.getPuerto_producto());
+        txtPuertoTonelaje.setText(r.getPuerto_tonelaje() + "");
+        datePuertoArribo.setDate(r.getPuerto_arribo());
+        txtPuertoArriboHora.setText(r.getPuerto_arribo_hora() + "");
+        datePuertoDesatraque.setDate(r.getPuerto_desatraque());
+        txtPuertoDesatraqueHora.setText(r.getPuerto_desatraque_hora() + "");
+        txtPuertoZarpe.setText(r.getPuerto_zarpe() + "");
+        
+        dateMuelleAtraque.setDate(r.getMuelle_atraque());
+        txtMuelleAtraqueHora.setText(r.getMuelle_atraque_hora() + "");
+        
+        dateOperacionInicio.setDate(r.getOperacion_inicio());
+        txtOperacionInicioHora.setText(r.getOperacion_inicio_hora() + "");
+        dateOperacionTermino.setDate(r.getOperacion_termino());
+        txtOperacionTerminoHora.setText(r.getOperacion_termino_hora() + "");
+        txtOperacionDemoras.setText(r.getOperacion_demoras() + "");
+        
     }
 
     /**
@@ -86,7 +103,7 @@ public class Create extends javax.swing.JFrame {
         btnGuardar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Agregar rendimiento");
+        setTitle("Editar rendimiento");
 
         root.setBorder(null);
 
@@ -439,7 +456,6 @@ public class Create extends javax.swing.JFrame {
                 double operacionTerminoHora = Double.parseDouble(txtOperacionTerminoHora.getText());
                 double operacionDemoras = Double.parseDouble(txtOperacionDemoras.getText());
 
-                Rendimiento rendimiento = new Rendimiento();
                 rendimiento.setPuerto_buque(puertoBuque);
                 rendimiento.setPuerto_muelle(puertoMuelle);
                 rendimiento.setPuerto_producto(puertoProducto);
@@ -457,9 +473,9 @@ public class Create extends javax.swing.JFrame {
                 rendimiento.setOperacion_termino_hora(operacionTerminoHora);
                 rendimiento.setOperacion_demoras(operacionDemoras);
                 
-                manager.getRendimientoDAO().save(rendimiento);
+                manager.getRendimientoDAO().update(rendimiento);
 
-                JOptionPane.showMessageDialog(rootPane, "Registro guardado exitosamente!!!", "Registro guardado", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(rootPane, "Registro actualizado exitosamente!!!", "Registro Actualizado guardado", JOptionPane.INFORMATION_MESSAGE);
 
                 try {
                     model.updateModel();
