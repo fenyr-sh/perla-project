@@ -50,7 +50,7 @@ public class Show extends javax.swing.JFrame {
         txtMuelleAtraque.setText((int) Math.round(muelle_atraque) + "");
         txtMuelleDesatraque.setText((int) Math.round(puerto_desatraque) + "");
         txtMuelleTiempo.setText((int) Math.round(muelle_tiempo) + "");
-        txtMuelleRendimiento.setText((int) Math.round(muelle_rendimiento) +"");
+        txtMuelleRendimiento.setText((int) Math.round(muelle_rendimiento) + "");
         
         txtOperacionInicio.setText((int) Math.round(operacion_inicio) + "");
         txtOperacionTermino.setText((int) Math.round(operacion_termino) + "");

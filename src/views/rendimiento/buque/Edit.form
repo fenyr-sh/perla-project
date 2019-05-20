@@ -202,9 +202,6 @@
               </Layout>
               <SubComponents>
                 <Component class="javax.swing.JTextField" name="txtPuertoMuelle">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="7"/>
-                  </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="lblPuertoProducto">
                   <Properties>
@@ -212,21 +209,15 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtPuertoProducto">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Maiz Amarillo"/>
-                  </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtPuertoBuque">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Atlantic Tulum"/>
                     <Property name="name" type="java.lang.String" value="Buque" noResource="true"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtPuertoTonelaje">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="34097"/>
-                  </Properties>
                   <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtPuertoTonelajeActionPerformed"/>
                     <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPuertoTonelajeKeyTyped"/>
                   </Events>
                 </Component>
@@ -258,17 +249,11 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtPuertoArriboHora">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="6"/>
-                  </Properties>
                   <Events>
                     <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPuertoArriboHoraKeyTyped"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtPuertoDesatraqueHora">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="8.5"/>
-                  </Properties>
                   <Events>
                     <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPuertoDesatraqueHoraKeyTyped"/>
                   </Events>
@@ -291,9 +276,6 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtPuertoZarpe">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="1"/>
-                  </Properties>
                   <Events>
                     <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPuertoZarpeKeyTyped"/>
                   </Events>
@@ -344,9 +326,6 @@
               </Layout>
               <SubComponents>
                 <Component class="javax.swing.JTextField" name="txtMuelleAtraqueHora">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="18.1"/>
-                  </Properties>
                   <Events>
                     <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtMuelleAtraqueHoraKeyTyped"/>
                   </Events>
@@ -445,9 +424,6 @@
               </Layout>
               <SubComponents>
                 <Component class="javax.swing.JTextField" name="txtOperacionDemoras">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="0"/>
-                  </Properties>
                   <Events>
                     <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtOperacionDemorasKeyTyped"/>
                   </Events>
@@ -470,17 +446,11 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtOperacionInicioHora">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="6"/>
-                  </Properties>
                   <Events>
                     <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtOperacionInicioHoraKeyTyped"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtOperacionTerminoHora">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="6"/>
-                  </Properties>
                   <Events>
                     <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtOperacionTerminoHoraKeyTyped"/>
                   </Events>

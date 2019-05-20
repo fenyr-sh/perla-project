@@ -92,16 +92,10 @@ public class Create extends javax.swing.JFrame {
 
         pnBuquePuerto.setBorder(javax.swing.BorderFactory.createTitledBorder("BUQUE EN PUERTO"));
 
-        txtPuertoMuelle.setText("7");
-
         lblPuertoProducto.setText("Producto:");
 
-        txtPuertoProducto.setText("Maiz Amarillo");
-
-        txtPuertoBuque.setText("Atlantic Tulum");
         txtPuertoBuque.setName("Buque"); // NOI18N
 
-        txtPuertoTonelaje.setText("34097");
         txtPuertoTonelaje.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtPuertoTonelajeKeyTyped(evt);
@@ -118,14 +112,12 @@ public class Create extends javax.swing.JFrame {
 
         lblPuertoArriboHora.setText("Hora:");
 
-        txtPuertoArriboHora.setText("6");
         txtPuertoArriboHora.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtPuertoArriboHoraKeyTyped(evt);
             }
         });
 
-        txtPuertoDesatraqueHora.setText("8.5");
         txtPuertoDesatraqueHora.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtPuertoDesatraqueHoraKeyTyped(evt);
@@ -138,7 +130,6 @@ public class Create extends javax.swing.JFrame {
 
         lblPuertoZarpe.setText("Hora Zarpe:");
 
-        txtPuertoZarpe.setText("1");
         txtPuertoZarpe.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtPuertoZarpeKeyTyped(evt);
@@ -232,7 +223,6 @@ public class Create extends javax.swing.JFrame {
 
         pnBuqueMuelle.setBorder(javax.swing.BorderFactory.createTitledBorder("BUQUE EN MUELLE"));
 
-        txtMuelleAtraqueHora.setText("18.1");
         txtMuelleAtraqueHora.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtMuelleAtraqueHoraKeyTyped(evt);
@@ -273,7 +263,6 @@ public class Create extends javax.swing.JFrame {
 
         pnBuqueOperacion.setBorder(javax.swing.BorderFactory.createTitledBorder("BUQUE EN OPERACIÓN"));
 
-        txtOperacionDemoras.setText("0");
         txtOperacionDemoras.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtOperacionDemorasKeyTyped(evt);
@@ -286,14 +275,12 @@ public class Create extends javax.swing.JFrame {
 
         lblOperacionInicioHora.setText("Hora:");
 
-        txtOperacionInicioHora.setText("6");
         txtOperacionInicioHora.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtOperacionInicioHoraKeyTyped(evt);
             }
         });
 
-        txtOperacionTerminoHora.setText("6");
         txtOperacionTerminoHora.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtOperacionTerminoHoraKeyTyped(evt);
