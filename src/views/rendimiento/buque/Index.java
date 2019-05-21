@@ -1,6 +1,7 @@
 package views.rendimiento.buque;
 
 import controllers.RendimientoTableModel;
+import java.awt.Color;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,7 +16,7 @@ import models.dao.DAOManager;
  */
 public class Index extends javax.swing.JFrame {
 
-    private final RendimientoTableModel model;
+    private RendimientoTableModel model;
     private final DAOManager manager;
     
     /**
@@ -28,18 +29,22 @@ public class Index extends javax.swing.JFrame {
         this.manager = manager;
         this.model = new RendimientoTableModel(manager.getRendimientoDAO());
         this.model.updateModel();
-        this.jTable1.setModel(model);
+        this.table.setModel(model);
+        this.table.getTableHeader().setBackground(new Color(52, 152, 219));
+        this.table.getTableHeader().setForeground(Color.WHITE);
         
         
         this.btnEliminar.setEnabled(false);
         this.btnEditar.setEnabled(false);
         this.btnVer.setEnabled(false);
+        this.btnGenerar.setEnabled(false);
         
-        this.jTable1.getSelectionModel().addListSelectionListener(e -> {
-            boolean seleccionValida = (jTable1.getSelectedRow() != -1);
+        this.table.getSelectionModel().addListSelectionListener(e -> {
+            boolean seleccionValida = (table.getSelectedRow() != -1);
             this.btnEliminar.setEnabled(seleccionValida);
             this.btnEditar.setEnabled(seleccionValida);
             this.btnVer.setEnabled(seleccionValida);
+            this.btnGenerar.setEnabled(seleccionValida);
         });
         
     }
@@ -57,24 +62,34 @@ public class Index extends javax.swing.JFrame {
         root = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        table = new javax.swing.JTable();
         btnAgregar = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
         btnVer = new javax.swing.JButton();
         txtBuscar = new javax.swing.JTextField();
+        btnGenerar = new javax.swing.JButton();
+        btnCargar = new javax.swing.JButton();
+        btnRefrescar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Rendimiento de Buques");
+        setMinimumSize(new java.awt.Dimension(1000, 500));
 
         jScrollPane1.setBorder(null);
+
+        root.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                rootMouseClicked(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Rendimientos");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -85,8 +100,8 @@ public class Index extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane2.setViewportView(jTable1);
+        table.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(table);
 
         btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -129,6 +144,17 @@ public class Index extends javax.swing.JFrame {
             }
         });
 
+        btnGenerar.setText("Generar");
+
+        btnCargar.setText("Cargar más");
+
+        btnRefrescar.setText("Refrescar");
+        btnRefrescar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefrescarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout rootLayout = new javax.swing.GroupLayout(root);
         root.setLayout(rootLayout);
         rootLayout.setHorizontalGroup(
@@ -137,17 +163,23 @@ public class Index extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(rootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 753, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rootLayout.createSequentialGroup()
-                        .addComponent(btnVer)
-                        .addGap(18, 18, 18)
                         .addComponent(btnAgregar)
                         .addGap(18, 18, 18)
                         .addComponent(btnEditar)
                         .addGap(18, 18, 18)
                         .addComponent(btnEliminar)
                         .addGap(18, 18, 18)
-                        .addComponent(txtBuscar)
+                        .addComponent(btnGenerar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnVer)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnCargar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnRefrescar)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(btnBuscar)))
                 .addContainerGap())
@@ -158,7 +190,7 @@ public class Index extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(rootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -166,7 +198,10 @@ public class Index extends javax.swing.JFrame {
                     .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnVer, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGenerar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRefrescar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -220,7 +255,7 @@ public class Index extends javax.swing.JFrame {
     }
     
     private Rendimiento getRendimientoSeleccionado() throws DAOException {
-        Long id = (Long) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
+        Long id = (Long) table.getValueAt(table.getSelectedRow(), 0);
         
         return manager.getRendimientoDAO().get(id);
     }
@@ -228,13 +263,6 @@ public class Index extends javax.swing.JFrame {
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
         new Create(manager, model).setVisible(true);
-        
-        try {
-            model.updateModel();
-            model.fireTableDataChanged();
-        } catch (DAOException ex) {
-            Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
@@ -249,12 +277,7 @@ public class Index extends javax.swing.JFrame {
 
     private void txtBuscarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarFocusGained
         // TODO add your handling code here:
-        try {
-            model.updateModel();
-            model.fireTableDataChanged();
-        } catch (DAOException ex) {
-            Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        update();
     }//GEN-LAST:event_txtBuscarFocusGained
 
     private void btnVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerActionPerformed
@@ -291,17 +314,34 @@ public class Index extends javax.swing.JFrame {
         }  
     }//GEN-LAST:event_btnVerActionPerformed
 
+    private void btnRefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefrescarActionPerformed
+        try {
+            model.updateModel();
+            update();
+        } catch (DAOException ex) {
+            Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnRefrescarActionPerformed
+
+    private void rootMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rootMouseClicked
+        // TODO add your handling code here:
+        table.clearSelection();
+    }//GEN-LAST:event_rootMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnCargar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnGenerar;
+    private javax.swing.JButton btnRefrescar;
     private javax.swing.JButton btnVer;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JPanel root;
+    private javax.swing.JTable table;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 }

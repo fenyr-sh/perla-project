@@ -61,6 +61,20 @@ public final class Util {
     }
     
     /**
+     * Convierte a mayuscula cada letra.
+     * @param evt 
+     */
+    public static void onlyUpperCase(KeyEvent evt) {
+        char c = evt.getKeyChar();
+        
+        if (Character.isLowerCase(c)) {
+            String cadena = ("" + c).toUpperCase();
+            c = cadena.charAt(0);
+            evt.setKeyChar(c);
+        }
+    }
+    
+    /**
      * Retorna verdadero si el/los campo(s) JTextField(s) estan vacios.
      * @param textFields JTextField a evaluar.
      * @return verdadero o falso.

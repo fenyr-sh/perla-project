@@ -28,15 +28,15 @@ public class RendimientoTableModel extends AbstractTableModel {
     public String getColumnName(int column) {
         switch(column) {
             case 0: return "ID";
-            case 1: return "PUERTO BUQUE";
-            case 2: return "PUERTO MUELLE";
-            case 3: return "PUERTO PRODUCTO";
-            case 4: return "PUERTO TONELAJE";
-            case 5: return "PUERTO ARRIBO";
-            case 6: return "PUERTO ARRIBO HORA";
-            case 7: return "PUERTO DESATRAQUE";
-            case 8: return "PUERTO DESATRAQUE HORA";
-            case 9: return "PUERTO ZARPE";
+            case 1: return "BUQUE";
+            case 2: return "MUELLE";
+            case 3: return "PRODUCTO";
+            case 4: return "TONELAJE";
+            case 5: return "ARRIBO";
+            case 6: return "ARRIBO HORA";
+            case 7: return "DESATRAQUE";
+            case 8: return "DESATRAQUE HORA";
+            case 9: return "ZARPE";
             case 10: return "MUELLE ATRAQUE";
             case 11: return "PUERTO ARRIBO HORA";
             case 12: return "OPERACION INICIO";

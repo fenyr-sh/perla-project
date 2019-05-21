@@ -104,14 +104,32 @@ public class Edit extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Editar rendimiento");
+        setResizable(false);
 
         root.setBorder(null);
 
         pnBuquePuerto.setBorder(javax.swing.BorderFactory.createTitledBorder("BUQUE EN PUERTO"));
 
+        txtPuertoMuelle.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPuertoMuelleKeyTyped(evt);
+            }
+        });
+
         lblPuertoProducto.setText("Producto:");
 
+        txtPuertoProducto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPuertoProductoKeyTyped(evt);
+            }
+        });
+
         txtPuertoBuque.setName("Buque"); // NOI18N
+        txtPuertoBuque.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPuertoBuqueKeyTyped(evt);
+            }
+        });
 
         txtPuertoTonelaje.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -526,6 +544,21 @@ public class Edit extends javax.swing.JFrame {
     private void txtPuertoTonelajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPuertoTonelajeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPuertoTonelajeActionPerformed
+
+    private void txtPuertoBuqueKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPuertoBuqueKeyTyped
+        // TODO add your handling code here:
+        Util.onlyUpperCase(evt);
+    }//GEN-LAST:event_txtPuertoBuqueKeyTyped
+
+    private void txtPuertoMuelleKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPuertoMuelleKeyTyped
+        // TODO add your handling code here:
+        Util.onlyUpperCase(evt);
+    }//GEN-LAST:event_txtPuertoMuelleKeyTyped
+
+    private void txtPuertoProductoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPuertoProductoKeyTyped
+        // TODO add your handling code here:
+        Util.onlyUpperCase(evt);
+    }//GEN-LAST:event_txtPuertoProductoKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;
