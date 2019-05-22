@@ -275,12 +275,12 @@ public class Index extends javax.swing.JFrame {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String date1 = df.format(dateArribo.getDate());
         String date2 = df.format(dateArribo.getDate());
-        System.out.println(date1);
+
         try {
             model.findByBuque(buque, carga, producto, date1, date2);
             model.fireTableDataChanged();
         } catch (DAOException ex) {
-            Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Error en SQL", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -289,7 +289,7 @@ public class Index extends javax.swing.JFrame {
             model.updateModel();
             model.fireTableDataChanged();
         } catch (DAOException ex) {
-            Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Error en SQL", JOptionPane.INFORMATION_MESSAGE);
         }
     }
     
@@ -308,7 +308,7 @@ public class Index extends javax.swing.JFrame {
             Edit edit = new Edit(manager, model, getRendimientoSeleccionado());
             edit.setVisible(true);
         } catch (DAOException ex) {
-            Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Error en SQL", JOptionPane.INFORMATION_MESSAGE);
         }
     }
     
@@ -326,7 +326,7 @@ public class Index extends javax.swing.JFrame {
                 model.fireTableDataChanged();
             }
         } catch (DAOException ex) {
-            Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Error en SQL", JOptionPane.INFORMATION_MESSAGE);
         }  
     }
     
@@ -366,7 +366,7 @@ public class Index extends javax.swing.JFrame {
 
             show.setVisible(true);
         } catch (DAOException ex) {
-            Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Error en SQL", JOptionPane.INFORMATION_MESSAGE);
         }  
     }
     
@@ -375,7 +375,7 @@ public class Index extends javax.swing.JFrame {
             model.updateModel();
             update();
         } catch (DAOException ex) {
-            Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Error en SQL", JOptionPane.INFORMATION_MESSAGE);
         }
     }
     

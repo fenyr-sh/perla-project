@@ -494,20 +494,19 @@ public class Create extends javax.swing.JFrame {
                 rendimiento.setOperacion_termino_hora(operacionTerminoHora);
                 rendimiento.setOperacion_demoras(operacionDemoras);
                 
+                manager.getRendimientoDAO().validate(rendimiento);
+                
                 manager.getRendimientoDAO().save(rendimiento);
 
                 JOptionPane.showMessageDialog(rootPane, "Registro guardado exitosamente!!!", "Registro guardado", JOptionPane.INFORMATION_MESSAGE);
 
-                try {
-                    model.updateModel();
-                    model.fireTableDataChanged();
-                } catch (DAOException ex) {
-                    Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                model.updateModel();
+                model.fireTableDataChanged();
+
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(rootPane, "Error de formato en campo", "Formato no valido", JOptionPane.ERROR_MESSAGE);
             } catch (DAOException ex) {
-                JOptionPane.showMessageDialog(rootPane, "Error al guardar en la base de datos!!!", "Error al guardar", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Error en SQL", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }//GEN-LAST:event_btnGuardarActionPerformed

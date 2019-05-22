@@ -5,6 +5,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -23,12 +25,51 @@ public class MySQLRendimientoDAO implements RendimientoDAO {
     private final String INSERT = "INSERT INTO " + TABLE + "(puerto_buque, puerto_muelle, puerto_carga, puerto_producto, puerto_tonelaje, puerto_arribo, puerto_arribo_hora, puerto_desatraque, puerto_desatraque_hora, puerto_zarpe, puerto_zarpe_hora, muelle_atraque, muelle_atraque_hora, operacion_inicio, operacion_inicio_hora, operacion_termino, operacion_termino_hora, operacion_demoras) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     private final String UPDATE = "UPDATE " + TABLE + " SET puerto_buque = ?, puerto_muelle = ?, puerto_carga = ?, puerto_producto = ?, puerto_tonelaje = ?, puerto_arribo = ?, puerto_arribo_hora = ?, puerto_desatraque = ?, puerto_desatraque_hora = ?, puerto_zarpe = ?, puerto_zarpe_hora = ?, muelle_atraque = ?, muelle_atraque_hora = ?, operacion_inicio = ?, operacion_inicio_hora = ?, operacion_termino = ?, operacion_termino_hora = ?, operacion_demoras = ? WHERE id = ?";
     private final String DELETE = "DELETE FROM " + TABLE + " WHERE id = ?";
-    private final String GETALL = "SELECT * FROM " + TABLE + " ORDER BY id DESC LIMIT 50";
+    private final String GETALL = "SELECT * FROM " + TABLE + " ORDER BY id DESC LIMIT 1, 5";
     private final String GETONE = "SELECT * FROM " + TABLE + " WHERE id = ?";
     private final String GETBY = "SELECT * FROM " + TABLE + " WHERE puerto_buque LIKE ? OR puerto_carga LIKE ? OR puerto_producto LIKE ? AND puerto_arribo BETWEEN ? AND ?";
     
     public MySQLRendimientoDAO(Connection conn) {
         this.conn = conn;
+    }
+    
+    @Override
+    public void validate(Rendimiento r) throws DAOException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String arribo = df.format(r.getPuerto_arribo());
+            
+        try {
+            ps = conn.prepareStatement("SELECT * FROM " + TABLE + " WHERE puerto_buque = ? AND puerto_arribo = ?");
+            ps.setString(1, r.getPuerto_buque());
+            ps.setString(2, arribo);
+            
+            rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                throw new DAOException("Registro duplicado");
+            }
+            
+        } catch (SQLException ex) {
+            throw new DAOException("Error en SQL", ex);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    throw new DAOException("Error en SQL", ex);
+                }
+            }
+            
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException ex) {
+                    throw new DAOException("Error en SQL", ex);
+                }
+            }
+        }
     }
 
     @Override
