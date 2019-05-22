@@ -1,6 +1,5 @@
 package controllers;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -25,8 +24,8 @@ public class RendimientoTableModel extends AbstractTableModel {
         datos = rendimiento.getAll();
     }
     
-    public void findByBuque(String buque, Date d1, Date d2) throws DAOException {
-        datos = rendimiento.getByBuque(buque, d1, d2);
+    public void findByBuque(String buque, String carga, String producto, String date1, String date2) throws DAOException {
+        datos = rendimiento.getBy(buque, carga, producto, date1, date2);
     }
     
     @Override

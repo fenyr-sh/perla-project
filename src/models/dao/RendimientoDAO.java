@@ -1,6 +1,5 @@
 package models.dao;
 
-import java.sql.Date;
 import java.util.List;
 import models.Rendimiento;
 
@@ -10,6 +9,6 @@ import models.Rendimiento;
  */
 public interface RendimientoDAO extends DAO<Rendimiento, Long> {
 
-    public List<Rendimiento> getByBuque(String buque, Date arribo_inicio, Date arribo_fin) throws DAOException;
+    public List<Rendimiento> getBy(String buque, String carga, String producto, String arribo_inicio, String arribo_fin) throws DAOException;
     
 }
