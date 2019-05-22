@@ -11,13 +11,15 @@ public class Rendimiento {
     private Long id = null;
     private String puerto_buque;
     private String puerto_muelle;
+    private String puerto_carga;
     private String puerto_producto;
     private double puerto_tonelaje;
     private Date puerto_arribo;
     private double puerto_arribo_hora;
     private Date puerto_desatraque;
     private double puerto_desatraque_hora;
-    private double puerto_zarpe;
+    private Date puerto_zarpe;
+    private double puerto_zarpe_hora;
     private Date muelle_atraque;
     private double muelle_atraque_hora;
     private Date operacion_inicio;
@@ -26,9 +28,10 @@ public class Rendimiento {
     private double operacion_termino_hora;
     private double operacion_demoras;
 
-    public Rendimiento(String puerto_buque, String puerto_muelle, String puerto_producto, double puerto_tonelaje, Date puerto_arribo, double puerto_arribo_hora, Date puerto_desatraque, double puerto_desatraque_hora, double puerto_zarpe, Date muelle_atraque, double muelle_atraque_hora, Date operacion_inicio, double operacion_inicio_hora, Date operacion_termino, double operacion_termino_hora, double operacion_demoras) {
+    public Rendimiento(String puerto_buque, String puerto_muelle, String puerto_carga, String puerto_producto, double puerto_tonelaje, Date puerto_arribo, double puerto_arribo_hora, Date puerto_desatraque, double puerto_desatraque_hora, Date puerto_zarpe, double puerto_zarpe_hora, Date muelle_atraque, double muelle_atraque_hora, Date operacion_inicio, double operacion_inicio_hora, Date operacion_termino, double operacion_termino_hora, double operacion_demoras) {
         this.puerto_buque = puerto_buque;
         this.puerto_muelle = puerto_muelle;
+        this.puerto_carga = puerto_carga;
         this.puerto_producto = puerto_producto;
         this.puerto_tonelaje = puerto_tonelaje;
         this.puerto_arribo = puerto_arribo;
@@ -36,6 +39,7 @@ public class Rendimiento {
         this.puerto_desatraque = puerto_desatraque;
         this.puerto_desatraque_hora = puerto_desatraque_hora;
         this.puerto_zarpe = puerto_zarpe;
+        this.puerto_zarpe_hora = puerto_zarpe_hora;
         this.muelle_atraque = muelle_atraque;
         this.muelle_atraque_hora = muelle_atraque_hora;
         this.operacion_inicio = operacion_inicio;
@@ -71,6 +75,14 @@ public class Rendimiento {
 
     public void setPuerto_muelle(String puerto_muelle) {
         this.puerto_muelle = puerto_muelle;
+    }
+
+    public String getPuerto_carga() {
+        return puerto_carga;
+    }
+
+    public void setPuerto_carga(String puerto_carga) {
+        this.puerto_carga = puerto_carga;
     }
 
     public String getPuerto_producto() {
@@ -121,12 +133,20 @@ public class Rendimiento {
         this.puerto_desatraque_hora = puerto_desatraque_hora;
     }
 
-    public double getPuerto_zarpe() {
+    public Date getPuerto_zarpe() {
         return puerto_zarpe;
     }
 
-    public void setPuerto_zarpe(double puerto_zarpe) {
+    public void setPuerto_zarpe(Date puerto_zarpe) {
         this.puerto_zarpe = puerto_zarpe;
+    }
+
+    public double getPuerto_zarpe_hora() {
+        return puerto_zarpe_hora;
+    }
+
+    public void setPuerto_zarpe_hora(double puerto_zarpe_hora) {
+        this.puerto_zarpe_hora = puerto_zarpe_hora;
     }
 
     public Date getMuelle_atraque() {

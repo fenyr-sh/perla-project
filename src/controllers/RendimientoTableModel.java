@@ -1,5 +1,6 @@
 package controllers;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -24,27 +25,23 @@ public class RendimientoTableModel extends AbstractTableModel {
         datos = rendimiento.getAll();
     }
     
+    public void findByBuque(String buque, Date d1, Date d2) throws DAOException {
+        datos = rendimiento.getByBuque(buque, d1, d2);
+    }
+    
     @Override
     public String getColumnName(int column) {
         switch(column) {
             case 0: return "ID";
             case 1: return "BUQUE";
             case 2: return "MUELLE";
-            case 3: return "PRODUCTO";
-            case 4: return "TONELAJE";
-            case 5: return "ARRIBO";
-            case 6: return "ARRIBO HORA";
-            case 7: return "DESATRAQUE";
-            case 8: return "DESATRAQUE HORA";
-            case 9: return "ZARPE";
-            case 10: return "MUELLE ATRAQUE";
-            case 11: return "PUERTO ARRIBO HORA";
-            case 12: return "OPERACION INICIO";
-            case 13: return "OPERACION INICIO HORA";
-            case 14: return "OPERACION TERMINO";
-            case 15: return "OPERACION TERMINO HORA";
-            case 16: return "OPERACION DEMORAS";
-            
+            case 3: return "TIPO DE CARGA";
+            case 4: return "PRODUCTO";
+            case 5: return "TONELAJE";
+            case 6: return "FECHA ARRIBO";
+            case 7: return "FECHA ATRAQUE";
+            case 8: return "FECHA DESATRAQUE";
+            case 9: return "FECHA ZARPE";
             default: return "[no]";
         }
     }
@@ -67,20 +64,13 @@ public class RendimientoTableModel extends AbstractTableModel {
             case 0: return r.getId();
             case 1: return r.getPuerto_buque();
             case 2: return r.getPuerto_muelle();
-            case 3: return r.getPuerto_producto();
-            case 4: return r.getPuerto_tonelaje();
-            case 5: return r.getPuerto_arribo();
-            case 6: return r.getPuerto_arribo_hora();
-            case 7: return r.getPuerto_desatraque();
-            case 8: return r.getPuerto_desatraque_hora();
+            case 3: return r.getPuerto_carga();
+            case 4: return r.getPuerto_producto();
+            case 5: return r.getPuerto_tonelaje();
+            case 6: return r.getPuerto_arribo();
+            case 7: return r.getMuelle_atraque();
+            case 8: return r.getPuerto_desatraque();
             case 9: return r.getPuerto_zarpe();
-            case 10: return r.getMuelle_atraque();
-            case 11: return r.getMuelle_atraque_hora();
-            case 12: return r.getOperacion_inicio();
-            case 13: return r.getOperacion_inicio_hora();
-            case 14: return r.getOperacion_termino();
-            case 15: return r.getOperacion_termino_hora();
-            case 16: return r.getOperacion_demoras();
                         
             default: return "[no]";
         }

@@ -25,7 +25,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="root" alignment="1" max="32767" attributes="0"/>
+          <Component id="root" alignment="0" pref="750" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -73,7 +73,7 @@
                       <Component id="pnBuqueMuelle" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="pnBuqueOperacion" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="32767" attributes="0"/>
                       <Component id="btnGuardar" min="-2" pref="30" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -93,7 +93,7 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
                               <Component id="lblPuertoProducto" alignment="0" max="32767" attributes="0"/>
@@ -101,32 +101,14 @@
                               <Component id="lblPuertoArribo" alignment="1" max="32767" attributes="0"/>
                               <Component id="lblPuertoDesatraque" alignment="0" max="32767" attributes="0"/>
                               <Component id="lblPuertoZarpe" max="32767" attributes="0"/>
+                              <Component id="jLabel2" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="datePuertoDesatraque" max="32767" attributes="0"/>
-                                      <Component id="datePuertoArribo" max="32767" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <Component id="lblPuertoArriboHora" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="txtPuertoArriboHora" max="32767" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <Component id="lblPuertoDesatraqueHora" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="txtPuertoDesatraqueHora" max="32767" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                              </Group>
-                              <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="1" attributes="0">
                                       <Component id="txtPuertoProducto" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="txtPuertoBuque" pref="235" max="32767" attributes="0"/>
+                                      <Component id="txtPuertoBuque" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -135,11 +117,37 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="txtPuertoTonelaje" alignment="1" pref="187" max="32767" attributes="0"/>
+                                      <Component id="txtPuertoTonelaje" alignment="1" max="32767" attributes="0"/>
                                       <Component id="txtPuertoMuelle" alignment="1" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
-                              <Component id="txtPuertoZarpe" alignment="1" max="32767" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Component id="datePuertoDesatraque" max="32767" attributes="0"/>
+                                      <Component id="datePuertoArribo" max="32767" attributes="0"/>
+                                      <Component id="datePuertoZarpe" alignment="0" max="32767" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Component id="lblPuertoArriboHora" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="txtPuertoArriboHora" max="32767" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="lblPuertoDesatraqueHora" alignment="0" max="-2" attributes="0"/>
+                                              <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="txtPuertoZarpeHora" max="32767" attributes="0"/>
+                                              <Component id="txtPuertoDesatraqueHora" max="32767" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                              <Component id="tboxTipoCarga" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -168,6 +176,11 @@
                                   <Component id="txtPuertoTonelaje" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                               </Group>
                           </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="tboxTipoCarga" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="jLabel2" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
+                          </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="lblPuertoArribo" min="-2" pref="30" max="-2" attributes="0"/>
@@ -192,8 +205,19 @@
                                           <Component id="txtPuertoDesatraqueHora" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="txtPuertoZarpe" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                                          <Component id="datePuertoZarpe" min="-2" pref="30" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="3" attributes="0">
+                                              <Component id="txtPuertoZarpeHora" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                              <Component id="jLabel1" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                  </Group>
                               </Group>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
@@ -281,13 +305,42 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="lblPuertoZarpe">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Hora Zarpe:"/>
+                    <Property name="text" type="java.lang.String" value="Zarpe:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="txtPuertoZarpe">
+                <Component class="javax.swing.JTextField" name="txtPuertoZarpeHora">
                   <Events>
-                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPuertoZarpeKeyTyped"/>
+                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPuertoZarpeHoraKeyTyped"/>
                   </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel1">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Hora:"/>
+                  </Properties>
+                </Component>
+                <Component class="com.toedter.calendar.JDateChooser" name="datePuertoZarpe">
+                </Component>
+                <Component class="javax.swing.JComboBox" name="tboxTipoCarga">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="6">
+                        <StringItem index="0" value="CARGA GENERAL"/>
+                        <StringItem index="1" value="CONTENERIZADA"/>
+                        <StringItem index="2" value="GRANEL AGRICOLA SEMIMECANIZADA"/>
+                        <StringItem index="3" value="GRANEL AGRICOLA MECANIZADA"/>
+                        <StringItem index="4" value="GRANEL MINERAL"/>
+                        <StringItem index="5" value="FLUIDOS"/>
+                      </StringArray>
+                    </Property>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel2">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Tipo de carga:"/>
+                  </Properties>
                 </Component>
               </SubComponents>
             </Container>

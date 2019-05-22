@@ -1,7 +1,9 @@
 package views.rendimiento.buque;
 
+import com.toedter.calendar.JDateChooser;
 import controllers.RendimientoTableModel;
 import java.awt.Color;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -68,7 +70,6 @@ public class Index extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
         btnVer = new javax.swing.JButton();
-        txtBuscar = new javax.swing.JTextField();
         btnGenerar = new javax.swing.JButton();
         btnCargar = new javax.swing.JButton();
         btnRefrescar = new javax.swing.JButton();
@@ -138,12 +139,6 @@ public class Index extends javax.swing.JFrame {
             }
         });
 
-        txtBuscar.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtBuscarFocusGained(evt);
-            }
-        });
-
         btnGenerar.setText("Generar");
 
         btnCargar.setText("Cargar más");
@@ -176,12 +171,11 @@ public class Index extends javax.swing.JFrame {
                         .addComponent(btnVer)
                         .addGap(18, 18, 18)
                         .addComponent(btnCargar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnRefrescar)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnBuscar)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnBuscar)
+                        .addGap(0, 106, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         rootLayout.setVerticalGroup(
@@ -190,7 +184,7 @@ public class Index extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(rootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -198,7 +192,6 @@ public class Index extends javax.swing.JFrame {
                     .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnVer, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnGenerar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRefrescar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -242,7 +235,22 @@ public class Index extends javax.swing.JFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
+        String buque = "RUNA";
+        java.sql.Date arribo_inicio = new java.sql.Date(2019, 2, 31);
+        java.sql.Date arribo_fin = new java.sql.Date(2019, 3, 01);
         
+        JDateChooser date = new JDateChooser();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2019, 2, 31);
+        date.setCalendar(calendar);
+        System.out.println(date.getDate());
+        
+        try {
+            model.findByBuque("RUNA", arribo_inicio, arribo_fin);
+            model.fireTableDataChanged();
+        } catch (DAOException ex) {
+            Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     public void update() {
@@ -275,24 +283,21 @@ public class Index extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEditarActionPerformed
 
-    private void txtBuscarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarFocusGained
-        // TODO add your handling code here:
-        update();
-    }//GEN-LAST:event_txtBuscarFocusGained
-
     private void btnVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerActionPerformed
         try {
             Rendimiento r = getRendimientoSeleccionado();
             
             String puertoBuque = r.getPuerto_buque();
             String puertoMuelle = r.getPuerto_muelle();
+            String puertoCarga = r.getPuerto_carga();
             String puertoProducto = r.getPuerto_producto();
             double puertoTonelaje = r.getPuerto_tonelaje();
             Date puertoArribo = r.getPuerto_arribo();
             double puertoArriboHora = r.getPuerto_arribo_hora();
             Date puertoDesatraque = r.getPuerto_desatraque();
             double puertoDesatraqueHora = r.getPuerto_desatraque_hora();
-            double puertoZarpe = r.getPuerto_zarpe();
+            Date puertoZarpe = r.getPuerto_zarpe();
+            double puertoZarpeHora = r.getPuerto_zarpe_hora();
             Date muelleAtraque = r.getMuelle_atraque();
             double muelleAtraqueHora = r.getMuelle_atraque_hora();
             Date operacionInicio = r.getOperacion_inicio();
@@ -303,9 +308,9 @@ public class Index extends javax.swing.JFrame {
             
             Show show = new Show();
 
-            show.setData(puertoBuque, puertoMuelle, puertoProducto, puertoTonelaje,
+            show.setData(puertoBuque, puertoMuelle, puertoCarga, puertoProducto, puertoTonelaje,
                     puertoArribo, puertoArriboHora, puertoDesatraque, puertoDesatraqueHora,
-                    puertoZarpe, muelleAtraque, muelleAtraqueHora, operacionInicio,
+                    puertoZarpe, puertoZarpeHora, muelleAtraque, muelleAtraqueHora, operacionInicio,
                     operacionInicioHora, operacionTermino, operacionTerminoHora, operacionDemoras);
 
             show.setVisible(true);
@@ -342,6 +347,5 @@ public class Index extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel root;
     private javax.swing.JTable table;
-    private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 }

@@ -16,15 +16,15 @@ public class Show extends javax.swing.JFrame {
         initComponents();
     }
     
-    public void setData(String puertoBuque, String puertoMuelle, String puertoProducto,
+    public void setData(String puertoBuque, String puertoMuelle, String puertoCarga, String puertoProducto,
             double puertoTonelaje, Date puertoArribo, double puertoArriboHora,
-            Date puertoDesatraque, double puertoDesatraqueHora, double puertoZarpe, Date muelleAtraque,
+            Date puertoDesatraque, double puertoDesatraqueHora, Date puertoZarpe, double puertoZarpeHora, Date muelleAtraque,
             double muelleAtraqueHora, Date operacionInicio, double operacionInicioHora,
             Date operacionTermino, double operacionTerminoHora, double operacionDemoras) {
         
         double puerto_arribo = Util.numberDate(puertoArribo, puertoArriboHora);
         double puerto_desatraque = Util.numberDate(puertoDesatraque, puertoDesatraqueHora);
-        double puerto_zarpe = puertoZarpe;
+        double puerto_zarpe = puertoZarpeHora;
         double puerto_tiempo = (puerto_desatraque - puerto_arribo) + puerto_zarpe;
         double puerto_rendimiento = puertoTonelaje/puerto_tiempo;
         
@@ -64,6 +64,9 @@ public class Show extends javax.swing.JFrame {
         txtMuelleDesatraque.setToolTipText(puertoDesatraque.toString());
         txtOperacionInicio.setToolTipText(operacionInicio.toString());
         txtOperacionTermino.setToolTipText(operacionTermino.toString());
+        txtPuertoRendimiento.setToolTipText(puerto_rendimiento + "");
+        txtMuelleRendimiento.setToolTipText(muelle_rendimiento + "");
+        txtOperacionRendimiento.setToolTipText(operacion_rendimiento + "");
     }
 
     /**

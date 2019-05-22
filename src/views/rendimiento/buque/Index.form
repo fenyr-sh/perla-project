@@ -71,12 +71,11 @@
                               <Component id="btnVer" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="btnCargar" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="btnRefrescar" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="txtBuscar" pref="88" max="32767" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="btnBuscar" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="106" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -89,7 +88,7 @@
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" pref="282" max="32767" attributes="0"/>
+                      <Component id="jScrollPane2" pref="283" max="32767" attributes="0"/>
                       <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnBuscar" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
@@ -97,7 +96,6 @@
                           <Component id="btnEditar" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="btnAgregar" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="btnVer" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                          <Component id="txtBuscar" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="btnGenerar" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="btnCargar" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="btnRefrescar" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
@@ -179,11 +177,6 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnVerActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JTextField" name="txtBuscar">
-              <Events>
-                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtBuscarFocusGained"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnGenerar">
