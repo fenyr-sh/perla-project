@@ -19,6 +19,7 @@ public class Edit extends javax.swing.JFrame {
     private final RendimientoTableModel model;
     private final DAOManager manager;
     private final Rendimiento rendimiento;
+    private Integer limit = Index.limit;
     
     /**
      * Creates new form RendimientoBuque
@@ -522,7 +523,7 @@ public class Edit extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(rootPane, "Registro actualizado exitosamente!!!", "Registro Actualizado guardado", JOptionPane.INFORMATION_MESSAGE);
 
                 try {
-                    model.updateModel();
+                    model.updateModel(limit);
                     model.fireTableDataChanged();
                 } catch (DAOException ex) {
                     Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);

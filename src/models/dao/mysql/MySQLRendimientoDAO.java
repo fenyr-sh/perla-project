@@ -25,9 +25,9 @@ public class MySQLRendimientoDAO implements RendimientoDAO {
     private final String INSERT = "INSERT INTO " + TABLE + "(puerto_buque, puerto_muelle, puerto_carga, puerto_producto, puerto_tonelaje, puerto_arribo, puerto_arribo_hora, puerto_desatraque, puerto_desatraque_hora, puerto_zarpe, puerto_zarpe_hora, muelle_atraque, muelle_atraque_hora, operacion_inicio, operacion_inicio_hora, operacion_termino, operacion_termino_hora, operacion_demoras) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     private final String UPDATE = "UPDATE " + TABLE + " SET puerto_buque = ?, puerto_muelle = ?, puerto_carga = ?, puerto_producto = ?, puerto_tonelaje = ?, puerto_arribo = ?, puerto_arribo_hora = ?, puerto_desatraque = ?, puerto_desatraque_hora = ?, puerto_zarpe = ?, puerto_zarpe_hora = ?, muelle_atraque = ?, muelle_atraque_hora = ?, operacion_inicio = ?, operacion_inicio_hora = ?, operacion_termino = ?, operacion_termino_hora = ?, operacion_demoras = ? WHERE id = ?";
     private final String DELETE = "DELETE FROM " + TABLE + " WHERE id = ?";
-    private final String GETALL = "SELECT * FROM " + TABLE + " ORDER BY id DESC LIMIT 1, 5";
+    private final String GETALL = "SELECT * FROM " + TABLE + " ORDER BY id DESC LIMIT ?";
     private final String GETONE = "SELECT * FROM " + TABLE + " WHERE id = ?";
-    private final String GETBY = "SELECT * FROM " + TABLE + " WHERE puerto_buque LIKE ? OR puerto_carga LIKE ? OR puerto_producto LIKE ? AND puerto_arribo BETWEEN ? AND ?";
+    private final String GETBY = "SELECT * FROM " + TABLE + " WHERE puerto_buque LIKE ? AND puerto_carga LIKE ? AND puerto_producto LIKE ? AND puerto_arribo >= ? AND puerto_desatraque <= ? ORDER BY id DESC LIMIT ?";
     
     public MySQLRendimientoDAO(Connection conn) {
         this.conn = conn;
@@ -225,13 +225,14 @@ public class MySQLRendimientoDAO implements RendimientoDAO {
     }
 
     @Override
-    public List<Rendimiento> getAll() throws DAOException {
+    public List<Rendimiento> getAll(Integer limit) throws DAOException {
         PreparedStatement ps = null;
         ResultSet rs = null;
         List<Rendimiento> rendimiento = new ArrayList<>();
             
         try {
             ps = conn.prepareStatement(GETALL);
+            ps.setInt(1, limit);
             
             rs = ps.executeQuery();
             
@@ -304,19 +305,21 @@ public class MySQLRendimientoDAO implements RendimientoDAO {
     }
     
     @Override
-    public List<Rendimiento> getBy(String buque, String carga, String producto, String arribo_inicio, String arribo_fin) throws DAOException {
+    public List<Rendimiento> getBy(String buque, String carga, String producto, String arribo, String desatraque, Integer limit) throws DAOException {
         
         PreparedStatement ps = null;
         ResultSet rs = null;
         List<Rendimiento> rendimiento = new ArrayList<>();
         
         try {
+
             ps = conn.prepareStatement(GETBY);
-            ps.setString(1, "%" + buque + "%");
-            ps.setString(2, "%" + carga + "%");
-            ps.setString(3, "%" + producto + "%");
-            ps.setString(4, "'" + arribo_inicio + "'");
-            ps.setString(5, "'" + arribo_fin + "'");
+            ps.setString(1, buque + "%");
+            ps.setString(2, carga + "%");
+            ps.setString(3, producto + "%");
+            ps.setString(4, arribo);
+            ps.setString(5, desatraque);
+            ps.setInt(6, limit);
             
             rs = ps.executeQuery();
             

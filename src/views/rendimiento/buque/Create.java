@@ -19,6 +19,7 @@ public class Create extends javax.swing.JFrame {
 
     private final RendimientoTableModel model;
     private final DAOManager manager;
+    private Integer limit = Index.limit;
     
     /**
      * Creates new form RendimientoBuque
@@ -500,7 +501,7 @@ public class Create extends javax.swing.JFrame {
 
                 JOptionPane.showMessageDialog(rootPane, "Registro guardado exitosamente!!!", "Registro guardado", JOptionPane.INFORMATION_MESSAGE);
 
-                model.updateModel();
+                model.updateModel(limit);
                 model.fireTableDataChanged();
 
             } catch (NumberFormatException ex) {

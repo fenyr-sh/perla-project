@@ -20,12 +20,12 @@ public class RendimientoTableModel extends AbstractTableModel {
         this.rendimiento = rendimiento;
     }
     
-    public void updateModel() throws DAOException {
-        datos = rendimiento.getAll();
+    public void updateModel(Integer limit) throws DAOException {
+        datos = rendimiento.getAll(limit);
     }
     
-    public void findByBuque(String buque, String carga, String producto, String date1, String date2) throws DAOException {
-        datos = rendimiento.getBy(buque, carga, producto, date1, date2);
+    public void findByBuque(String buque, String carga, String producto, String date1, String date2, Integer limit) throws DAOException {
+        datos = rendimiento.getBy(buque, carga, producto, date1, date2, limit);
     }
     
     @Override

@@ -7,9 +7,9 @@ import models.Rendimiento;
  *
  * @author Fenyr Shell
  */
-public interface RendimientoDAO extends DAO<Rendimiento, Long> {
+public interface RendimientoDAO extends DAO<Rendimiento, Long, Integer> {
 
-    public List<Rendimiento> getBy(String buque, String carga, String producto, String arribo_inicio, String arribo_fin) throws DAOException;
+    public List<Rendimiento> getBy(String buque, String carga, String producto, String arribo_inicio, String arribo_fin, Integer limit) throws DAOException;
     
     public void validate(Rendimiento r) throws DAOException;
 }

@@ -24,6 +24,7 @@ public class Index extends javax.swing.JFrame {
 
     private RendimientoTableModel model;
     private final DAOManager manager;
+    public static Integer limit = 25;
     
     /**
      * Creates new form Index
@@ -34,7 +35,7 @@ public class Index extends javax.swing.JFrame {
         initComponents();
         this.manager = manager;
         this.model = new RendimientoTableModel(manager.getRendimientoDAO());
-        this.model.updateModel();
+        this.model.updateModel(limit);
         this.table.setModel(model);
         setColumWidth();
 
@@ -56,11 +57,12 @@ public class Index extends javax.swing.JFrame {
             
         });
         
-        PlaceHolder ph = new PlaceHolder(txtBuscarBuque, "Buque");
-        PlaceHolder ph2 = new PlaceHolder(txtBuscarCarga, "Tipo de Carga");
-        PlaceHolder ph3 = new PlaceHolder(txtBuscarProducto, "Producto");   
+//        PlaceHolder ph = new PlaceHolder(txtBuscarBuque, "Buque");
+//        PlaceHolder ph2 = new PlaceHolder(txtBuscarCarga, "Tipo de Carga");
+//        PlaceHolder ph3 = new PlaceHolder(txtBuscarProducto, "Producto");   
         dateArribo.setCalendar(Calendar.getInstance());
         dateDesatraque.setCalendar(Calendar.getInstance());
+        
     }
     
     private void setColumWidth() {
@@ -93,13 +95,19 @@ public class Index extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
         btnBuscar = new javax.swing.JButton();
-        btnCargar = new javax.swing.JButton();
         btnRefrescar = new javax.swing.JButton();
         txtBuscarProducto = new javax.swing.JTextField();
         txtBuscarCarga = new javax.swing.JTextField();
         txtBuscarBuque = new javax.swing.JTextField();
         dateDesatraque = new com.toedter.calendar.JDateChooser();
         dateArribo = new com.toedter.calendar.JDateChooser();
+        cbxRegistros = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         mnAgregar = new javax.swing.JMenuItem();
@@ -146,14 +154,31 @@ public class Index extends javax.swing.JFrame {
             }
         });
 
-        btnCargar.setText("Cargar más");
-
         btnRefrescar.setText("Refrescar");
         btnRefrescar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRefrescarActionPerformed(evt);
             }
         });
+
+        cbxRegistros.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "25", "50", "100", "250", "500" }));
+        cbxRegistros.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxRegistrosItemStateChanged(evt);
+            }
+        });
+
+        jLabel2.setText("Registros:");
+
+        jLabel3.setText("Arribo:");
+
+        jLabel4.setText("Desatraque:");
+
+        jLabel5.setText("Buque:");
+
+        jLabel6.setText("Tipo carga:");
+
+        jLabel7.setText("Producto:");
 
         javax.swing.GroupLayout rootLayout = new javax.swing.GroupLayout(root);
         root.setLayout(rootLayout);
@@ -165,19 +190,31 @@ public class Index extends javax.swing.JFrame {
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane2)
                     .addGroup(rootLayout.createSequentialGroup()
-                        .addComponent(btnCargar)
+                        .addGroup(rootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cbxRegistros, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addComponent(btnRefrescar)
                         .addGap(18, 18, 18)
-                        .addComponent(dateArribo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(rootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(dateArribo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
-                        .addComponent(dateDesatraque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(rootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(dateDesatraque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
-                        .addComponent(txtBuscarBuque)
+                        .addGroup(rootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtBuscarBuque)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
-                        .addComponent(txtBuscarCarga)
+                        .addGroup(rootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtBuscarCarga)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
-                        .addComponent(txtBuscarProducto)
+                        .addGroup(rootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtBuscarProducto))
                         .addGap(18, 18, 18)
                         .addComponent(btnBuscar)))
                 .addContainerGap())
@@ -188,16 +225,24 @@ public class Index extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(rootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(rootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(rootLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnCargar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnRefrescar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txtBuscarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txtBuscarCarga, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtBuscarBuque, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtBuscarBuque, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbxRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(dateDesatraque, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(dateArribo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
@@ -256,7 +301,7 @@ public class Index extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 903, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -269,24 +314,26 @@ public class Index extends javax.swing.JFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        String buque = txtBuscarBuque.getText();
-        String carga = txtBuscarCarga.getText();
-        String producto = txtBuscarProducto.getText();
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String date1 = df.format(dateArribo.getDate());
-        String date2 = df.format(dateArribo.getDate());
-
         try {
-            model.findByBuque(buque, carga, producto, date1, date2);
+            String buque = txtBuscarBuque.getText();
+            String carga = txtBuscarCarga.getText();
+            String producto = txtBuscarProducto.getText();
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            String date1 = df.format(dateArribo.getDate());
+            String date2 = df.format(dateDesatraque.getDate());
+
+            model.findByBuque(buque, carga, producto, date1, date2, limit);
             model.fireTableDataChanged();
         } catch (DAOException ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Error en SQL", JOptionPane.INFORMATION_MESSAGE);
+        } catch (NullPointerException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Verifica que la fecha de arribo y desatraque son correctas.", "Error en fecha", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     public void update() {
         try {
-            model.updateModel();
+            model.updateModel(limit);
             model.fireTableDataChanged();
         } catch (DAOException ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Error en SQL", JOptionPane.INFORMATION_MESSAGE);
@@ -322,7 +369,7 @@ public class Index extends javax.swing.JFrame {
 
                 manager.getRendimientoDAO().delete(rendimiento);
 
-                model.updateModel();
+                model.updateModel(limit);
                 model.fireTableDataChanged();
             }
         } catch (DAOException ex) {
@@ -372,7 +419,7 @@ public class Index extends javax.swing.JFrame {
     
     private void refrescar() {
         try {
-            model.updateModel();
+            model.updateModel(limit);
             update();
         } catch (DAOException ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Error en SQL", JOptionPane.INFORMATION_MESSAGE);
@@ -408,13 +455,25 @@ public class Index extends javax.swing.JFrame {
         ver();
     }//GEN-LAST:event_mnVerActionPerformed
 
+    private void cbxRegistrosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxRegistrosItemStateChanged
+        // TODO add your handling code here:
+        limit = Integer.parseInt(cbxRegistros.getSelectedItem().toString());
+        update();
+    }//GEN-LAST:event_cbxRegistrosItemStateChanged
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnCargar;
     private javax.swing.JButton btnRefrescar;
+    private javax.swing.JComboBox<String> cbxRegistros;
     private com.toedter.calendar.JDateChooser dateArribo;
     private com.toedter.calendar.JDateChooser dateDesatraque;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
