@@ -147,11 +147,11 @@ public final class Util {
             try {
                 if (db_conn.getConnection() != null) {
                     db_conn.closeConnection();
-                }
+        }
             } catch (SQLException ex) {
                 Logger.getLogger(Util.class.getName()).log(Level.SEVERE, null, ex);
-            }
+    }
             
-        }
+}
     }
 }

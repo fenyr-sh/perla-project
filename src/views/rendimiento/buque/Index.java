@@ -2,19 +2,36 @@ package views.rendimiento.buque;
 
 import com.placeholder.PlaceHolder;
 import com.toedter.calendar.JDateChooser;
+import controllers.Main;
 import controllers.RendimientoTableModel;
+import controllers.Util;
 import java.awt.Color;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.WindowConstants;
 import javax.swing.table.TableColumnModel;
 import models.Rendimiento;
 import models.dao.DAOException;
 import models.dao.DAOManager;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -25,48 +42,51 @@ public class Index extends javax.swing.JFrame {
     private RendimientoTableModel model;
     private final DAOManager manager;
     public static Integer limit = 25;
-    
+    private final Color defaultTableForeground;
+    private final Color defaultTableBackground;
+
     /**
      * Creates new form Index
+     *
      * @param manager
      * @throws models.dao.DAOException
      */
     public Index(DAOManager manager) throws DAOException {
+        setLookAndFeel("nimbus");
         initComponents();
         this.manager = manager;
         this.model = new RendimientoTableModel(manager.getRendimientoDAO());
         this.model.updateModel(limit);
         this.table.setModel(model);
+        defaultTableBackground = table.getBackground();
+        defaultTableForeground = table.getForeground();
         setColumWidth();
 
-        this.table.getTableHeader().setBackground(new Color(52, 152, 219));
-        this.table.getTableHeader().setForeground(Color.WHITE);
-        
         mnEliminar.setEnabled(false);
         mnEditar.setEnabled(false);
         mnVer.setEnabled(false);
         mnGenerar.setEnabled(false);
-        
+
         this.table.getSelectionModel().addListSelectionListener(e -> {
             boolean seleccionValida = (table.getSelectedRow() != -1);
-            
+
             mnEliminar.setEnabled(seleccionValida);
             mnEditar.setEnabled(seleccionValida);
             mnVer.setEnabled(seleccionValida);
             mnGenerar.setEnabled(seleccionValida);
-            
+
         });
-        
+
 //        PlaceHolder ph = new PlaceHolder(txtBuscarBuque, "Buque");
 //        PlaceHolder ph2 = new PlaceHolder(txtBuscarCarga, "Tipo de Carga");
 //        PlaceHolder ph3 = new PlaceHolder(txtBuscarProducto, "Producto");   
         dateArribo.setCalendar(Calendar.getInstance());
         dateDesatraque.setCalendar(Calendar.getInstance());
-        
+
     }
-    
+
     private void setColumWidth() {
-                
+
         TableColumnModel column = table.getColumnModel();
         column.getColumn(0).setPreferredWidth(20);
         column.getColumn(1).setPreferredWidth(60);
@@ -116,9 +136,14 @@ public class Index extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         mnVer = new javax.swing.JMenuItem();
         mnGenerar = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Rendimiento de Buques");
+        setTitle("RENDIMIENTOS");
         setMinimumSize(new java.awt.Dimension(1000, 500));
 
         jScrollPane1.setBorder(null);
@@ -131,7 +156,7 @@ public class Index extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Rendimientos");
+        jLabel1.setText("RENDIMIENTOS DE PRODUCTIVIDAD DE BUQUE ");
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -295,6 +320,42 @@ public class Index extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
+        jMenu2.setText("Tema");
+
+        jMenuItem1.setText("Sistema");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem1);
+
+        jMenuItem2.setText("Nimbus");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem2);
+
+        jMenuItem3.setText("Metal");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem3);
+
+        jMenuItem4.setText("Motif");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem4);
+
+        jMenuBar1.add(jMenu2);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -339,17 +400,17 @@ public class Index extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Error en SQL", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-    
+
     private Rendimiento getRendimientoSeleccionado() throws DAOException {
         Long id = (Long) table.getValueAt(table.getSelectedRow(), 0);
-        
+
         return manager.getRendimientoDAO().get(id);
     }
-    
+
     private void agregar() {
         new Create(manager, model).setVisible(true);
     }
-    
+
     private void editar() {
         try {
             Edit edit = new Edit(manager, model, getRendimientoSeleccionado());
@@ -358,10 +419,10 @@ public class Index extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Error en SQL", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-    
+
     private void eliminar() {
         Rendimiento rendimiento;
-        
+
         try {
             rendimiento = getRendimientoSeleccionado();
             if (JOptionPane.showConfirmDialog(rootPane, "¿Seguro que quieres borrar este rendimiento?" + "\nID = " + rendimiento.getId() + ", BUQUE = " + rendimiento.getPuerto_buque(),
@@ -374,17 +435,34 @@ public class Index extends javax.swing.JFrame {
             }
         } catch (DAOException ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Error en SQL", JOptionPane.INFORMATION_MESSAGE);
-        }  
+        }
     }
-    
-    private void generar() {
-        
+
+    private void generarPDF() throws JRException {
+        JasperReport report;
+
+        URL path = getClass().getClassLoader().getResource("pdf/rendimiento.jasper");
+
+        Map<String, Object> map = new HashMap<>();
+
+        JRDataSource source = new JREmptyDataSource();
+
+        report = (JasperReport) JRLoader.loadObject(path);
+
+        map.put("buque", "Buque");
+        map.put("buque2", "Buque2");
+
+        JasperPrint jasperPrint = JasperFillManager.fillReport(report, map, source);
+
+        JasperViewer jasperViewer = new JasperViewer(jasperPrint, false);
+        jasperViewer.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        jasperViewer.setVisible(true);
     }
-    
+
     private void ver() {
         try {
             Rendimiento r = getRendimientoSeleccionado();
-            
+
             String puertoBuque = r.getPuerto_buque();
             String puertoMuelle = r.getPuerto_muelle();
             String puertoCarga = r.getPuerto_carga();
@@ -403,7 +481,7 @@ public class Index extends javax.swing.JFrame {
             Date operacionTermino = r.getOperacion_termino();
             double operacionTerminoHora = r.getOperacion_termino_hora();
             double operacionDemoras = r.getOperacion_demoras();
-            
+
             Show show = new Show();
 
             show.setData(puertoBuque, puertoMuelle, puertoCarga, puertoProducto, puertoTonelaje,
@@ -414,9 +492,9 @@ public class Index extends javax.swing.JFrame {
             show.setVisible(true);
         } catch (DAOException ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Error en SQL", JOptionPane.INFORMATION_MESSAGE);
-        }  
+        }
     }
-    
+
     private void refrescar() {
         try {
             model.updateModel(limit);
@@ -425,7 +503,46 @@ public class Index extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Error en SQL", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-    
+
+    /**
+     * Establece la apariencia de la aplicación.
+     * @param name nombre del tema.
+     */
+    private void setLookAndFeel(String name) {
+        try {
+            switch (name) {
+                case "system":
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                    break;
+
+                case "nimbus":
+                    UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+                    break;
+
+                case "metal":
+                    UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+                    break;
+                    
+                case "motif":
+                    UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+                    break;
+                    
+                case "GTK":
+                    UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
+                    break;
+
+                default:
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                    break;
+            }
+
+            SwingUtilities.updateComponentTreeUI(this);
+            this.pack();
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     private void btnRefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefrescarActionPerformed
         update();
     }//GEN-LAST:event_btnRefrescarActionPerformed
@@ -448,7 +565,11 @@ public class Index extends javax.swing.JFrame {
     }//GEN-LAST:event_mnEliminarActionPerformed
 
     private void mnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnGenerarActionPerformed
-        generar();
+//        try {
+//            generarPDF();
+//        } catch (JRException ex) {
+//            Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }//GEN-LAST:event_mnGenerarActionPerformed
 
     private void mnVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnVerActionPerformed
@@ -460,6 +581,34 @@ public class Index extends javax.swing.JFrame {
         limit = Integer.parseInt(cbxRegistros.getSelectedItem().toString());
         update();
     }//GEN-LAST:event_cbxRegistrosItemStateChanged
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        setLookAndFeel("system");
+        table.getTableHeader().setBackground(defaultTableBackground);
+        table.getTableHeader().setForeground(defaultTableForeground);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        setLookAndFeel("nimbus");
+        table.getTableHeader().setBackground(defaultTableBackground);
+        table.getTableHeader().setForeground(defaultTableForeground);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        setLookAndFeel("metal");
+        table.getTableHeader().setBackground(new Color(52, 152, 219));
+        table.getTableHeader().setForeground(Color.WHITE);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        setLookAndFeel("motif");
+        table.getTableHeader().setBackground(new Color(52, 152, 219));
+        table.getTableHeader().setForeground(Color.WHITE);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
@@ -475,7 +624,12 @@ public class Index extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
