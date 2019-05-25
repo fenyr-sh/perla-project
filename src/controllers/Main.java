@@ -33,12 +33,14 @@ public class Main {
             
         } catch (IOException ex) {
             System.out.println("Error en IO: " + ex);
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error IO", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se puede conectar con la base de datos!"
                     + "\nRevisa el archivo de configuración."
                     + "\n\nError: \n" + ex.getMessage(), "Error de conexión", JOptionPane.ERROR_MESSAGE);
         } catch (DAOException ex) {
             System.out.println("Error en DAO: " + ex);
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error en SQL", JOptionPane.INFORMATION_MESSAGE);
         }        
         
     }

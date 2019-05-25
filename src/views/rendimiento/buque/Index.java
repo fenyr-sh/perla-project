@@ -1,37 +1,31 @@
 package views.rendimiento.buque;
 
-import com.placeholder.PlaceHolder;
-import com.toedter.calendar.JDateChooser;
-import controllers.Main;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileOutputStream;
 import controllers.RendimientoTableModel;
 import controllers.Util;
 import java.awt.Color;
-import java.net.URL;
+import java.io.FileNotFoundException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.WindowConstants;
 import javax.swing.table.TableColumnModel;
 import models.Rendimiento;
 import models.dao.DAOException;
 import models.dao.DAOManager;
-import net.sf.jasperreports.engine.JRDataSource;
-import net.sf.jasperreports.engine.JREmptyDataSource;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -52,8 +46,9 @@ public class Index extends javax.swing.JFrame {
      * @throws models.dao.DAOException
      */
     public Index(DAOManager manager) throws DAOException {
-        setLookAndFeel("nimbus");
         initComponents();
+        setLookAndFeel("system");
+        mnTema.setVisible(false);
         this.manager = manager;
         this.model = new RendimientoTableModel(manager.getRendimientoDAO());
         this.model.updateModel(limit);
@@ -136,7 +131,7 @@ public class Index extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         mnVer = new javax.swing.JMenuItem();
         mnGenerar = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        mnTema = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
@@ -320,7 +315,7 @@ public class Index extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Tema");
+        mnTema.setText("Tema");
 
         jMenuItem1.setText("Sistema");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -328,7 +323,7 @@ public class Index extends javax.swing.JFrame {
                 jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem1);
+        mnTema.add(jMenuItem1);
 
         jMenuItem2.setText("Nimbus");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
@@ -336,7 +331,7 @@ public class Index extends javax.swing.JFrame {
                 jMenuItem2ActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem2);
+        mnTema.add(jMenuItem2);
 
         jMenuItem3.setText("Metal");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
@@ -344,7 +339,7 @@ public class Index extends javax.swing.JFrame {
                 jMenuItem3ActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem3);
+        mnTema.add(jMenuItem3);
 
         jMenuItem4.setText("Motif");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
@@ -352,9 +347,9 @@ public class Index extends javax.swing.JFrame {
                 jMenuItem4ActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem4);
+        mnTema.add(jMenuItem4);
 
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(mnTema);
 
         setJMenuBar(jMenuBar1);
 
@@ -438,25 +433,110 @@ public class Index extends javax.swing.JFrame {
         }
     }
 
-    private void generarPDF() throws JRException {
-        JasperReport report;
+    private void generarPDF(Rendimiento r) throws FileNotFoundException, DocumentException {
+        
+        double puerto_arribo = Util.numberDate(r.getPuerto_arribo(), r.getPuerto_arribo_hora());
+        double puerto_desatraque = Util.numberDate(r.getPuerto_desatraque(), r.getPuerto_desatraque_hora());
+        double puerto_zarpe = r.getPuerto_zarpe_hora();
+        double puerto_tiempo = (puerto_desatraque - puerto_arribo) + puerto_zarpe;
+        double puerto_rendimiento = r.getPuerto_tonelaje()/puerto_tiempo;
+        
+        double muelle_atraque = Util.numberDate(r.getMuelle_atraque(), r.getMuelle_atraque_hora());
+        double muelle_tiempo = (puerto_desatraque - muelle_atraque);
+        double muelle_rendimiento = r.getPuerto_tonelaje()/muelle_tiempo;
+        
+        double operacion_inicio = Util.numberDate(r.getOperacion_inicio(), r.getOperacion_inicio_hora());
+        double operacion_termino = Util.numberDate(r.getOperacion_termino(), r.getOperacion_termino_hora());
+        double operacion_tiempo = (operacion_termino - operacion_inicio) - r.getOperacion_demoras();
+        double operacion_rendimiento = r.getPuerto_tonelaje()/operacion_tiempo;
+        
+        Document document = new Document();
+        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        
+        PdfWriter.getInstance(document, new FileOutputStream("Rendimiento_" + r.getPuerto_buque() + "_" + df.format(r.getPuerto_arribo()) + ".pdf"));
+        document.open();
+        
+            PdfPTable pdfTable = new PdfPTable(6);
+            
+            Font font =  new Font();
+            font.setSize(10);
+            
+            PdfPCell encabezado = new PdfPCell(new Paragraph("RENDIMIENTOS DE PRODUCTIVIDAD DE BUQUE", font));
+            encabezado.setColspan(6);
+            encabezado.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            pdfTable.addCell(encabezado);
+            
+            PdfPCell buque = new PdfPCell(new Paragraph("Buque: " + r.getPuerto_buque(), font));
+            buque.setColspan(4);
+            pdfTable.addCell(buque);
+            
+            PdfPCell muelle = new PdfPCell(new Paragraph("Muelle: " + r.getPuerto_muelle(), font));
+            muelle.setColspan(2);
+            pdfTable.addCell(muelle);
+             
+            pdfTable.addCell(new PdfPCell(new Paragraph("Arribo:", font)));
+            pdfTable.addCell(new PdfPCell(new Paragraph("Atraque:", font)));
+            pdfTable.addCell(new PdfPCell(new Paragraph("Inicio de operación:", font)));
+            pdfTable.addCell(new PdfPCell(new Paragraph("Termino de operación:", font)));
+            pdfTable.addCell(new PdfPCell(new Paragraph("Desatraque:", font)));
+            pdfTable.addCell(new PdfPCell(new Paragraph("Hora de zarpe:", font)));
+                        
+            pdfTable.addCell(new PdfPCell(new Paragraph(df.format(r.getPuerto_arribo()), font)));
+            pdfTable.addCell(new PdfPCell(new Paragraph(df.format(r.getMuelle_atraque()), font)));
+            pdfTable.addCell(new PdfPCell(new Paragraph(df.format(r.getOperacion_inicio()), font)));
+            pdfTable.addCell(new PdfPCell(new Paragraph(df.format(r.getOperacion_termino()), font)));
+            pdfTable.addCell(new PdfPCell(new Paragraph(df.format(r.getPuerto_desatraque()), font)));
+            pdfTable.addCell(new PdfPCell(new Paragraph(r.getPuerto_zarpe_hora() + "", font)));
+            
+            pdfTable.addCell(new PdfPCell(new Paragraph((int) Math.round(puerto_arribo) + "", font)));
+            pdfTable.addCell(new PdfPCell(new Paragraph((int) Math.round(muelle_atraque) + "", font)));
+            pdfTable.addCell(new PdfPCell(new Paragraph((int) Math.round(operacion_inicio) + "", font)));
+            pdfTable.addCell(new PdfPCell(new Paragraph((int) Math.round(operacion_termino) + "", font)));
+            pdfTable.addCell(new PdfPCell(new Paragraph((int) Math.round(puerto_desatraque) + "", font)));
+            pdfTable.addCell(new PdfPCell(new Paragraph((int) Math.round(puerto_zarpe) + "", font)));
+            
+            PdfPCell producto = new PdfPCell(new Paragraph("Producto: " + r.getPuerto_producto(), font));
+            producto.setColspan(4);
+            pdfTable.addCell(producto);
+            
+            PdfPCell tonelaje = new PdfPCell(new Paragraph("Tonelaje: " + r.getPuerto_tonelaje(), font));
+            tonelaje.setColspan(2);
+            pdfTable.addCell(tonelaje);
+            
+            // HBP: HORAS TOTALES DESDE QUE EL BUQUE ARRIBA HASTA QUE ZARPA 
+            PdfPCell hbp = new PdfPCell(new Paragraph("HBP: " + (int) Math.round(puerto_tiempo), font));
+            hbp.setColspan(2);
+            pdfTable.addCell(hbp);
+            
+            // HBM: HORAS TOTALES… TODO EL TIEMPO QUE EL BUQUE ESTUVO EN EL MUELLE .. DESDE QUE ATRACA HASTA QUE DESATRACA
+            PdfPCell hbm = new PdfPCell(new Paragraph("HBM: " + (int) Math.round(muelle_tiempo), font));
+            hbm.setColspan(2);
+            pdfTable.addCell(hbm);
+            
+            // HBO: TOTAL DE HORAS DESDE EL INICIO DE SUS OPERACIONES DE CARGA HASTA QUE TERMINA SUS OPERACIONES DE CARGA 
+            PdfPCell hbo = new PdfPCell(new Paragraph("HBO: " + (int) Math.round(operacion_tiempo), font));
+            hbo.setColspan(2);
+            pdfTable.addCell(hbo);
+            
+            // THBP: RENDIMIENTO DE BUQUE EN PUERTO 
+            PdfPCell thbp = new PdfPCell(new Paragraph("THBP: " + (int) Math.round(puerto_rendimiento), font));
+            thbp.setColspan(2);
+            pdfTable.addCell(thbp);
+            
+            // THBM: RENDIMIENTO DE BUQUE EN MUELLE
+            PdfPCell thbm = new PdfPCell(new Paragraph("THBM: " + (int) Math.round(muelle_rendimiento), font));
+            thbm.setColspan(2);
+            pdfTable.addCell(thbm);
+            
+            // THBO: RENDIMIENTO DE BUQUE EN OPERACIÓN 
+            PdfPCell thbo = new PdfPCell(new Paragraph("THBO: " + (int) Math.round(operacion_rendimiento), font));
+            thbo.setColspan(2);
+            pdfTable.addCell(thbo);
 
-        URL path = getClass().getClassLoader().getResource("pdf/rendimiento.jasper");
-
-        Map<String, Object> map = new HashMap<>();
-
-        JRDataSource source = new JREmptyDataSource();
-
-        report = (JasperReport) JRLoader.loadObject(path);
-
-        map.put("buque", "Buque");
-        map.put("buque2", "Buque2");
-
-        JasperPrint jasperPrint = JasperFillManager.fillReport(report, map, source);
-
-        JasperViewer jasperViewer = new JasperViewer(jasperPrint, false);
-        jasperViewer.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        jasperViewer.setVisible(true);
+            // Agregamos la tabla al documento            
+            document.add(pdfTable);
+             
+            document.close();
     }
 
     private void ver() {
@@ -565,11 +645,12 @@ public class Index extends javax.swing.JFrame {
     }//GEN-LAST:event_mnEliminarActionPerformed
 
     private void mnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnGenerarActionPerformed
-//        try {
-//            generarPDF();
-//        } catch (JRException ex) {
-//            Logger.getLogger(Index.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        try {
+            generarPDF(getRendimientoSeleccionado());
+            JOptionPane.showMessageDialog(rootPane, "PDF generado exitosamente!", "PDF generado", JOptionPane.INFORMATION_MESSAGE);
+        } catch (FileNotFoundException | DocumentException | DAOException ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Error", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_mnGenerarActionPerformed
 
     private void mnVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnVerActionPerformed
@@ -624,7 +705,6 @@ public class Index extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
@@ -637,6 +717,7 @@ public class Index extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnEditar;
     private javax.swing.JMenuItem mnEliminar;
     private javax.swing.JMenuItem mnGenerar;
+    private javax.swing.JMenu mnTema;
     private javax.swing.JMenuItem mnVer;
     private javax.swing.JPanel root;
     private javax.swing.JTable table;
