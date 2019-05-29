@@ -1,6 +1,7 @@
 package views.rendimiento.buque;
 
 import controllers.Util;
+import java.text.DecimalFormat;
 import java.util.Date;
 
 /**
@@ -22,9 +23,11 @@ public class Show extends javax.swing.JFrame {
             double muelleAtraqueHora, Date operacionInicio, double operacionInicioHora,
             Date operacionTermino, double operacionTerminoHora, double operacionDemoras) {
         
+        DecimalFormat df = new DecimalFormat("0.00");
+        
         double puerto_arribo = Util.numberDate(puertoArribo, puertoArriboHora);
         double puerto_desatraque = Util.numberDate(puertoDesatraque, puertoDesatraqueHora);
-        double puerto_zarpe = puertoZarpeHora;
+        double puerto_zarpe = Util.numberDate(puertoZarpe, puertoZarpeHora) - puerto_desatraque;
         double puerto_tiempo = (puerto_desatraque - puerto_arribo) + puerto_zarpe;
         double puerto_rendimiento = puertoTonelaje/puerto_tiempo;
         
@@ -41,7 +44,7 @@ public class Show extends javax.swing.JFrame {
         txtPuertoMuelle.setText(puertoMuelle);
         txtPuertoProducto.setText(puertoProducto);
         txtPuertoTonelaje.setText(puertoTonelaje + "");
-        txtPuertoZarpe.setText(puerto_zarpe + "");
+        txtPuertoZarpe.setText(df.format(puerto_zarpe));
         txtPuertoArribo.setText((int) Math.round(puerto_arribo) + "");
         txtPuertoDesatraque.setText((int) Math.round(puerto_desatraque) + "");
         txtPuertoTiempo.setText((int) Math.round(puerto_tiempo) + "");

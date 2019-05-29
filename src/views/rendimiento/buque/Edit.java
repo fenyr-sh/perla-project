@@ -183,7 +183,7 @@ public class Edit extends javax.swing.JFrame {
 
         jLabel2.setText("Tipo de carga:");
 
-        tboxTipoCarga.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CARGA GENERAL", "CONTENERIZADA", "GRANEL AGRICOLA SEMIMECANIZADA", "GRANEL AGRICOLA MECANIZADA", "GRANEL MINERAL", "FLUIDOS" }));
+        tboxTipoCarga.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CARGA GENERAL", "CONTENERIZADA", "GRANEL AGRICOLA", "GRANEL MINERAL", "FLUIDOS" }));
 
         txtPuertoZarpeHora.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {

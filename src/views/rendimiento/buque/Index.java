@@ -1,8 +1,11 @@
 package views.rendimiento.buque;
 
+import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -12,7 +15,9 @@ import controllers.RendimientoTableModel;
 import controllers.Util;
 import java.awt.Color;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,7 +52,7 @@ public class Index extends javax.swing.JFrame {
      */
     public Index(DAOManager manager) throws DAOException {
         initComponents();
-        setLookAndFeel("system");
+        setLookAndFeel("nimbus");
         mnTema.setVisible(false);
         this.manager = manager;
         this.model = new RendimientoTableModel(manager.getRendimientoDAO());
@@ -433,11 +438,11 @@ public class Index extends javax.swing.JFrame {
         }
     }
 
-    private void generarPDF(Rendimiento r) throws FileNotFoundException, DocumentException {
+    private void generarPDF(Rendimiento r) throws FileNotFoundException, DocumentException, BadElementException, IOException {
         
         double puerto_arribo = Util.numberDate(r.getPuerto_arribo(), r.getPuerto_arribo_hora());
         double puerto_desatraque = Util.numberDate(r.getPuerto_desatraque(), r.getPuerto_desatraque_hora());
-        double puerto_zarpe = r.getPuerto_zarpe_hora();
+        double puerto_zarpe = Util.numberDate(r.getPuerto_zarpe(), r.getPuerto_zarpe_hora()) - puerto_desatraque;
         double puerto_tiempo = (puerto_desatraque - puerto_arribo) + puerto_zarpe;
         double puerto_rendimiento = r.getPuerto_tonelaje()/puerto_tiempo;
         
@@ -452,91 +457,103 @@ public class Index extends javax.swing.JFrame {
         
         Document document = new Document();
         DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-        
+        Image img = Image.getInstance(getClass().getClassLoader().getResource("images/logo1.png"));
+        Image img2 = Image.getInstance(getClass().getClassLoader().getResource("images/logo2.png"));
+                
         PdfWriter.getInstance(document, new FileOutputStream("Rendimiento_" + r.getPuerto_buque() + "_" + df.format(r.getPuerto_arribo()) + ".pdf"));
+        
         document.open();
         
-            PdfPTable pdfTable = new PdfPTable(6);
-            
-            Font font =  new Font();
-            font.setSize(10);
-            
-            PdfPCell encabezado = new PdfPCell(new Paragraph("RENDIMIENTOS DE PRODUCTIVIDAD DE BUQUE", font));
-            encabezado.setColspan(6);
-            encabezado.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            pdfTable.addCell(encabezado);
-            
-            PdfPCell buque = new PdfPCell(new Paragraph("Buque: " + r.getPuerto_buque(), font));
-            buque.setColspan(4);
-            pdfTable.addCell(buque);
-            
-            PdfPCell muelle = new PdfPCell(new Paragraph("Muelle: " + r.getPuerto_muelle(), font));
-            muelle.setColspan(2);
-            pdfTable.addCell(muelle);
-             
-            pdfTable.addCell(new PdfPCell(new Paragraph("Arribo:", font)));
-            pdfTable.addCell(new PdfPCell(new Paragraph("Atraque:", font)));
-            pdfTable.addCell(new PdfPCell(new Paragraph("Inicio de operación:", font)));
-            pdfTable.addCell(new PdfPCell(new Paragraph("Termino de operación:", font)));
-            pdfTable.addCell(new PdfPCell(new Paragraph("Desatraque:", font)));
-            pdfTable.addCell(new PdfPCell(new Paragraph("Hora de zarpe:", font)));
-                        
-            pdfTable.addCell(new PdfPCell(new Paragraph(df.format(r.getPuerto_arribo()), font)));
-            pdfTable.addCell(new PdfPCell(new Paragraph(df.format(r.getMuelle_atraque()), font)));
-            pdfTable.addCell(new PdfPCell(new Paragraph(df.format(r.getOperacion_inicio()), font)));
-            pdfTable.addCell(new PdfPCell(new Paragraph(df.format(r.getOperacion_termino()), font)));
-            pdfTable.addCell(new PdfPCell(new Paragraph(df.format(r.getPuerto_desatraque()), font)));
-            pdfTable.addCell(new PdfPCell(new Paragraph(r.getPuerto_zarpe_hora() + "", font)));
-            
-            pdfTable.addCell(new PdfPCell(new Paragraph((int) Math.round(puerto_arribo) + "", font)));
-            pdfTable.addCell(new PdfPCell(new Paragraph((int) Math.round(muelle_atraque) + "", font)));
-            pdfTable.addCell(new PdfPCell(new Paragraph((int) Math.round(operacion_inicio) + "", font)));
-            pdfTable.addCell(new PdfPCell(new Paragraph((int) Math.round(operacion_termino) + "", font)));
-            pdfTable.addCell(new PdfPCell(new Paragraph((int) Math.round(puerto_desatraque) + "", font)));
-            pdfTable.addCell(new PdfPCell(new Paragraph((int) Math.round(puerto_zarpe) + "", font)));
-            
-            PdfPCell producto = new PdfPCell(new Paragraph("Producto: " + r.getPuerto_producto(), font));
-            producto.setColspan(4);
-            pdfTable.addCell(producto);
-            
-            PdfPCell tonelaje = new PdfPCell(new Paragraph("Tonelaje: " + r.getPuerto_tonelaje(), font));
-            tonelaje.setColspan(2);
-            pdfTable.addCell(tonelaje);
-            
-            // HBP: HORAS TOTALES DESDE QUE EL BUQUE ARRIBA HASTA QUE ZARPA 
-            PdfPCell hbp = new PdfPCell(new Paragraph("HBP: " + (int) Math.round(puerto_tiempo), font));
-            hbp.setColspan(2);
-            pdfTable.addCell(hbp);
-            
-            // HBM: HORAS TOTALES… TODO EL TIEMPO QUE EL BUQUE ESTUVO EN EL MUELLE .. DESDE QUE ATRACA HASTA QUE DESATRACA
-            PdfPCell hbm = new PdfPCell(new Paragraph("HBM: " + (int) Math.round(muelle_tiempo), font));
-            hbm.setColspan(2);
-            pdfTable.addCell(hbm);
-            
-            // HBO: TOTAL DE HORAS DESDE EL INICIO DE SUS OPERACIONES DE CARGA HASTA QUE TERMINA SUS OPERACIONES DE CARGA 
-            PdfPCell hbo = new PdfPCell(new Paragraph("HBO: " + (int) Math.round(operacion_tiempo), font));
-            hbo.setColspan(2);
-            pdfTable.addCell(hbo);
-            
-            // THBP: RENDIMIENTO DE BUQUE EN PUERTO 
-            PdfPCell thbp = new PdfPCell(new Paragraph("THBP: " + (int) Math.round(puerto_rendimiento), font));
-            thbp.setColspan(2);
-            pdfTable.addCell(thbp);
-            
-            // THBM: RENDIMIENTO DE BUQUE EN MUELLE
-            PdfPCell thbm = new PdfPCell(new Paragraph("THBM: " + (int) Math.round(muelle_rendimiento), font));
-            thbm.setColspan(2);
-            pdfTable.addCell(thbm);
-            
-            // THBO: RENDIMIENTO DE BUQUE EN OPERACIÓN 
-            PdfPCell thbo = new PdfPCell(new Paragraph("THBO: " + (int) Math.round(operacion_rendimiento), font));
-            thbo.setColspan(2);
-            pdfTable.addCell(thbo);
+        img.setAlignment(Image.ALIGN_LEFT);
+        img2.setAbsolutePosition(380, 705);
+        
+        img.scaleAbsolute(200, 70);
+        img2.scaleAbsolute(120, 120);
+        
+        document.add(img);
+        document.add(img2);
+        
+        PdfPTable pdfTable = new PdfPTable(6);
 
-            // Agregamos la tabla al documento            
-            document.add(pdfTable);
-             
-            document.close();
+        Font font =  new Font();
+        font.setSize(10);
+
+        PdfPCell encabezado = new PdfPCell(new Paragraph("RENDIMIENTOS DE PRODUCTIVIDAD DE BUQUE", font));
+        encabezado.setColspan(6);
+        encabezado.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        pdfTable.addCell(encabezado);
+
+        PdfPCell buque = new PdfPCell(new Paragraph("Buque: " + r.getPuerto_buque(), font));
+        buque.setColspan(4);
+        pdfTable.addCell(buque);
+
+        PdfPCell muelle = new PdfPCell(new Paragraph("Muelle: " + r.getPuerto_muelle(), font));
+        muelle.setColspan(2);
+        pdfTable.addCell(muelle);
+
+        pdfTable.addCell(new PdfPCell(new Paragraph("Arribo:", font)));
+        pdfTable.addCell(new PdfPCell(new Paragraph("Atraque:", font)));
+        pdfTable.addCell(new PdfPCell(new Paragraph("Inicio de operación:", font)));
+        pdfTable.addCell(new PdfPCell(new Paragraph("Termino de operación:", font)));
+        pdfTable.addCell(new PdfPCell(new Paragraph("Desatraque:", font)));
+        pdfTable.addCell(new PdfPCell(new Paragraph("Hora de zarpe:", font)));
+
+        pdfTable.addCell(new PdfPCell(new Paragraph(df.format(r.getPuerto_arribo()), font)));
+        pdfTable.addCell(new PdfPCell(new Paragraph(df.format(r.getMuelle_atraque()), font)));
+        pdfTable.addCell(new PdfPCell(new Paragraph(df.format(r.getOperacion_inicio()), font)));
+        pdfTable.addCell(new PdfPCell(new Paragraph(df.format(r.getOperacion_termino()), font)));
+        pdfTable.addCell(new PdfPCell(new Paragraph(df.format(r.getPuerto_desatraque()), font)));
+        pdfTable.addCell(new PdfPCell(new Paragraph(r.getPuerto_zarpe_hora() + "", font)));
+
+        pdfTable.addCell(new PdfPCell(new Paragraph((int) Math.round(puerto_arribo) + "", font)));
+        pdfTable.addCell(new PdfPCell(new Paragraph((int) Math.round(muelle_atraque) + "", font)));
+        pdfTable.addCell(new PdfPCell(new Paragraph((int) Math.round(operacion_inicio) + "", font)));
+        pdfTable.addCell(new PdfPCell(new Paragraph((int) Math.round(operacion_termino) + "", font)));
+        pdfTable.addCell(new PdfPCell(new Paragraph((int) Math.round(puerto_desatraque) + "", font)));
+        pdfTable.addCell(new PdfPCell(new Paragraph(new DecimalFormat("#.##").format(puerto_zarpe) + "", font)));
+
+        PdfPCell producto = new PdfPCell(new Paragraph("Producto: " + r.getPuerto_producto(), font));
+        producto.setColspan(4);
+        pdfTable.addCell(producto);
+
+        PdfPCell tonelaje = new PdfPCell(new Paragraph("Tonelaje: " + r.getPuerto_tonelaje(), font));
+        tonelaje.setColspan(2);
+        pdfTable.addCell(tonelaje);
+
+        // HBP: HORAS TOTALES DESDE QUE EL BUQUE ARRIBA HASTA QUE ZARPA 
+        PdfPCell hbp = new PdfPCell(new Paragraph("HBP: " + (int) Math.round(puerto_tiempo), font));
+        hbp.setColspan(2);
+        pdfTable.addCell(hbp);
+
+        // HBM: HORAS TOTALES… TODO EL TIEMPO QUE EL BUQUE ESTUVO EN EL MUELLE .. DESDE QUE ATRACA HASTA QUE DESATRACA
+        PdfPCell hbm = new PdfPCell(new Paragraph("HBM: " + (int) Math.round(muelle_tiempo), font));
+        hbm.setColspan(2);
+        pdfTable.addCell(hbm);
+
+        // HBO: TOTAL DE HORAS DESDE EL INICIO DE SUS OPERACIONES DE CARGA HASTA QUE TERMINA SUS OPERACIONES DE CARGA 
+        PdfPCell hbo = new PdfPCell(new Paragraph("HBO: " + (int) Math.round(operacion_tiempo), font));
+        hbo.setColspan(2);
+        pdfTable.addCell(hbo);
+
+        // THBP: RENDIMIENTO DE BUQUE EN PUERTO 
+        PdfPCell thbp = new PdfPCell(new Paragraph("THBP: " + (int) Math.round(puerto_rendimiento), font));
+        thbp.setColspan(2);
+        pdfTable.addCell(thbp);
+
+        // THBM: RENDIMIENTO DE BUQUE EN MUELLE
+        PdfPCell thbm = new PdfPCell(new Paragraph("THBM: " + (int) Math.round(muelle_rendimiento), font));
+        thbm.setColspan(2);
+        pdfTable.addCell(thbm);
+
+        // THBO: RENDIMIENTO DE BUQUE EN OPERACIÓN 
+        PdfPCell thbo = new PdfPCell(new Paragraph("THBO: " + (int) Math.round(operacion_rendimiento), font));
+        thbo.setColspan(2);
+        pdfTable.addCell(thbo);
+
+        // Agregamos la tabla al documento            
+        document.add(pdfTable);
+
+        document.close();
     }
 
     private void ver() {
@@ -649,6 +666,8 @@ public class Index extends javax.swing.JFrame {
             generarPDF(getRendimientoSeleccionado());
             JOptionPane.showMessageDialog(rootPane, "PDF generado exitosamente!", "PDF generado", JOptionPane.INFORMATION_MESSAGE);
         } catch (FileNotFoundException | DocumentException | DAOException ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Error", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Error", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_mnGenerarActionPerformed

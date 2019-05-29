@@ -162,7 +162,7 @@ public class Create extends javax.swing.JFrame {
 
         jLabel1.setText("Hora:");
 
-        tboxTipoCarga.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CARGA GENERAL", "CONTENERIZADA", "GRANEL AGRICOLA SEMIMECANIZADA", "GRANEL AGRICOLA MECANIZADA", "GRANEL MINERAL", "FLUIDOS" }));
+        tboxTipoCarga.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CARGA GENERAL", "CONTENERIZADA", "GRANEL AGRICOLA", "GRANEL MINERAL", "FLUIDOS" }));
 
         jLabel2.setText("Tipo de carga:");
 
