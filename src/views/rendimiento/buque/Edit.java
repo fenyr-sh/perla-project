@@ -52,14 +52,18 @@ public class Edit extends javax.swing.JFrame {
         dateOperacionTermino.setDate(r.getOperacion_termino());
         txtOperacionTerminoHora.setText(r.getOperacion_termino_hora() + "");
         txtOperacionDemoras.setText(r.getOperacion_demoras() + "");
-        
+
+//        0.- CARGA GENERAL
+//        1.- CONTENERIZADA
+//        2.- GRANEL AGRICOLA
+//        3.- GRANEL MINERAL
+//        4.- FLUIDOS
         switch(r.getPuerto_carga()) {
             case "CARGA GENERAL": tboxTipoCarga.setSelectedIndex(0); break;
             case "CONTENERIZADA": tboxTipoCarga.setSelectedIndex(1); break;
-            case "GRANEL AGRICOLA SEMIMECANIZADA": tboxTipoCarga.setSelectedIndex(2); break;
-            case "GRANEL AGRICOLA MECANIZADA": tboxTipoCarga.setSelectedIndex(3); break;
-            case "GRANEL MINERAL": tboxTipoCarga.setSelectedIndex(4); break;
-            case "FLUIDOS": tboxTipoCarga.setSelectedIndex(5); break;
+            case "GRANEL AGRICOLA": tboxTipoCarga.setSelectedIndex(2); break;
+            case "GRANEL MINERAL": tboxTipoCarga.setSelectedIndex(3); break;
+            case "FLUIDOS": tboxTipoCarga.setSelectedIndex(4); break;
         }
     }
 

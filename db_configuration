@@ -1,9 +1,29 @@
 #Database setttings
 #Thu May 09 00:30:30 CDT 2019
-DB_DATABASE=apps
+
+###################################################
+# No se configura a menos que sepas los que haces #
+###################################################
+DB_TIMEZONE=UTC
 DB_PORT=3306
 DB_PROTOCOL=jdbc\:mysql\:
+
+#####################################
+# Solo configura de aquí para abajo #
+#####################################
+
+##############################
+# Nombre de la base de datos #
+##############################
+DB_DATABASE=apps
+
+########################################################
+# Usuario y Contraseña para acceder a la base de datos #
+########################################################
 DB_USERNAME=guest
-DB_HOST=192.168.0.100
 DB_PASSWORD=secret
-DB_TIMEZONE=UTC
+
+#############################################################
+# Direccion IP de la computadora donde esta instalado MySQL #
+#############################################################
+DB_HOST=192.168.43.72
