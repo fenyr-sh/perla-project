@@ -209,7 +209,7 @@ public class MySQLRendimientoDAO implements RendimientoDAO {
         double puerto_arribo_hora = rs.getDouble("puerto_arribo_hora");
         Date puerto_desatraque = rs.getDate("puerto_desatraque", Calendar.getInstance());
         double puerto_desatraque_hora = rs.getDouble("puerto_desatraque_hora");
-        Date puerto_zarpe = rs.getDate("puerto_zarpe");
+        Date puerto_zarpe = rs.getDate("puerto_zarpe", Calendar.getInstance());
         double puerto_zarpe_hora = rs.getDouble("puerto_zarpe_hora");
         Date muelle_atraque = rs.getDate("muelle_atraque", Calendar.getInstance());
         double muelle_atraque_hora = rs.getDouble("muelle_atraque_hora");
